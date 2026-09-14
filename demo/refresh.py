@@ -343,7 +343,8 @@ def update_index(robot: RunMetrics, playwright: RunMetrics) -> None:
         count=1,
     )
 
-    INDEX_HTML.write_text(html_text, encoding="utf-8", newline="\n")
+    with INDEX_HTML.open("w", encoding="utf-8", newline="\n") as file:
+        file.write(html_text)
 
 
 def update_history(robot: RunMetrics, playwright: RunMetrics, limit: int) -> None:

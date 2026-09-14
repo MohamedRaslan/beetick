@@ -10,220 +10,55 @@
 <body>
 
 <nav><div class="wrap">
-  <a href="index.html" class="strong">&larr; Back to the demo</a>
-  <a href="#decisions">Decisions</a>
-  <a href="#images">Image assertion</a>
-  <a href="#lifecycle">Browser lifecycle</a>
-  <a href="#portability">Portability</a>
-  <a href="#pipeline">Pipeline placement</a>
-  <a href="#next">What I would do next</a>
+  <a href="index.html" class="strong">&larr; Back to demo</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="#notes">Notes</a>
 </div></nav>
+
+<a class="repo-card" href="https://github.com/MohamedRaslan/beetick">
+  <span>Repository</span>
+  <b>MohamedRaslan / beetick</b>
+</a>
 
 <header><div class="wrap">
   <div class="eyebrow">Engineering notes</div>
-  <h1>The decisions, and what they cost</h1>
+  <h1>Short notes on the important choices</h1>
   <p class="lede">
-    Everything on this page is optional reading. It covers the judgement calls behind the two
-    suites, the limits each one accepts, and the things a reviewer would reasonably probe.
+    A compact record of the decisions that affect stability and reviewability.
   </p>
 </div></header>
 
-<section id="decisions"><div class="wrap">
-  <h2>Decisions worth a minute</h2>
-  <p class="sub">Six choices that shaped the code.</p>
+<section id="notes"><div class="wrap">
   <div class="notes">
     <div class="note">
-      <b>Enter is pressed on the input, not the page</b>
-      <p>An open autocomplete suggestion swallows a page-level keypress and searches for something
-      else entirely. Both implementations target the element, so the typed term is what gets submitted.</p>
+      <b>Search submits from the input</b>
+      <p>Pressing Enter on the input avoids autocomplete stealing a page-level keypress.</p>
     </div>
     <div class="note">
-      <b>One API contract is asserted, not mocked</b>
-      <p>Add-to-cart is observed at the network level — status, request payload, and response —
-      because it is the journey's only real mutation. Search and product pages are Next.js server
-      components with no stable business contract, so they are asserted through the UI instead.</p>
+      <b>The selected product is dynamic</b>
+      <p>The suite picks the first title that matches the search term, then carries that exact title through product and cart checks.</p>
     </div>
     <div class="note">
-      <b>Startup waits on the regions response</b>
-      <p>The header renders its delivery city from that call. The wait is registered before
-      navigation and resolved before the header is asserted; reversing that order makes the city
-      arrive too late and the assertion fail.</p>
+      <b>Image checks are practical</b>
+      <p>The card must have an image. The product page additionally checks that the browser decoded a real image with a positive natural width.</p>
     </div>
     <div class="note">
-      <b>Results are dynamic, never hardcoded</b>
-      <p>The first title-relevant result is selected at runtime and its name carried through every
-      later assertion, so a merchandising change cannot produce a false pass. Matching is normalized,
-      which lets <code>iphone17</code> match a title rendered as <code>Apple iPhone 17 Pro Max</code>.</p>
+      <b>Add-to-cart is the API check</b>
+      <p>Search and product pages are asserted through UI state. The cart mutation is checked by status, payload, and response.</p>
     </div>
     <div class="note">
-      <b>No retries</b>
-      <p>Against a live storefront, a visible failure with a trace is more honest than a hidden retry.
-      Retries train people to ignore red builds. If production instability proves recurrent, the fix is
-      one documented retry — not a blanket three.</p>
+      <b>No random sleeps</b>
+      <p>Waits are tied to conditions: URL, visible/editable elements, image state, and the cart response.</p>
     </div>
     <div class="note">
-      <b>Selectors prefer the accessibility tree</b>
-      <p>Role and name lookups skip the aria-hidden duplicates this site renders — a second
-      "Add to cart" in a sticky bar, a second zoom control. Where a test id exists it is used for
-      structure, with roles inside it.</p>
-    </div>
-  </div>
-</div></section>
-
-<section id="images"><div class="wrap">
-  <h2>What the image assertion proves, and what it does not</h2>
-  <p class="sub">The requirement says "assert it has an image". That sentence hides a range of rigour, so the suite checks it twice at different depths.</p>
-
-  <table>
-    <tr><th>Where</th><th>What is asserted</th></tr>
-    <tr>
-      <td>Search result card</td>
-      <td>An image element is visible, its <code>alt</code> matches the selected product, and its <code>src</code> is not empty. Presence only — this answers the requirement at the point the assignment names it.</td>
-    </tr>
-    <tr>
-      <td>Product page</td>
-      <td>The browser actually fetched and decoded the image: <code>complete</code> is true, intrinsic width is at least 200px, and the source comes from the product media CDN.</td>
-    </tr>
-  </table>
-
-  <p class="sub" style="margin-top:18px;">
-    A failed fetch leaves <code>complete</code> true with <code>naturalWidth</code> at zero, so those
-    two together catch the broken-image case that a visibility check misses entirely. The width floor
-    rejects tracking pixels and blur-up placeholders that were never swapped for the real image, and
-    the source check rejects fallback art served from elsewhere.
-  </p>
-
-  <div class="note" style="margin-bottom:18px;">
-    <b>The limit</b>
-    <p>None of this proves the image looks correct. A valid, fully decoded photograph of the
-    <em>wrong</em> product would pass, and so would a correct image hidden behind an overlay.
-    Catching those needs pixel comparison.</p>
-  </div>
-
-  <h3>Why visual regression was rejected</h3>
-  <p class="sub">
-    Not squeamishness — it is a property of this suite. The test deliberately selects a
-    <em>dynamic</em> product: whichever live result matches the search term that day. Screenshot
-    baselines require a fixed subject, and product photography on a public storefront changes without
-    notice. Baselines here would fail on merchandising updates rather than on defects, which teaches
-    people to ignore failures. Visual regression earns its place against a pinned fixture environment
-    or a component library, not a production journey that picks its own subject.
-  </p>
-</div></section>
-
-<section id="lifecycle"><div class="wrap">
-  <h2>Browser lifecycle</h2>
-  <p class="sub">Every test runs in a fresh browser context, so cart and session state cannot leak between runs. The two frameworks arrive there differently.</p>
-  <table>
-    <tr><th>Implementation</th><th>How isolation happens</th></tr>
-    <tr>
-      <td>Robot Framework</td>
-      <td>Explicit: <code>Test Setup&nbsp;&nbsp;Open Fresh B.TECH Browser</code> and <code>Test Teardown&nbsp;&nbsp;Close B.TECH Browser</code>. The teardown also captures a full-page screenshot when the test failed.</td>
-    </tr>
-    <tr>
-      <td>Playwright</td>
-      <td>Framework-managed: the built-in <code>page</code> fixture creates a context per test and closes it afterwards, so the spec contains no explicit open or close. Adding them would break the failure hook that reads <code>page.url()</code>, and would tear down the worker-scoped browser shared with later tests.</td>
-    </tr>
-  </table>
-</div></section>
-
-<section id="portability"><div class="wrap">
-  <h2>A portability bug CI caught</h2>
-  <p class="sub">Worth recording because it could never have failed on the development machine.</p>
-  <p class="sub">
-    The Robot suite originally set <code>Test Timeout&nbsp;&nbsp;60s</code>. It passed locally on
-    Windows every time, and failed on the very first Linux CI run with
-    <code>ValueError: signal only works in main thread of the main interpreter</code>.
-  </p>
-  <p class="sub">The chain, confirmed in the installed sources rather than guessed:</p>
-  <div class="layers" style="margin-bottom:18px;">
-    <div class="layer"><b>Robot picks a runner</b><span><code>running/timeouts/runner.py</code> selects <code>WindowsRunner</code> on Windows and <code>PosixRunner</code> everywhere else.</span></div>
-    <div class="layer"><b>POSIX uses signals</b><span><code>PosixRunner</code> arms the timeout with <code>signal.setitimer(ITIMER_REAL)</code> and <code>SIGALRM</code>, which only work on the main thread.</span></div>
-    <div class="layer"><b>Promises use threads</b><span>Browser Library runs <code>Promise To</code> keywords on a <code>ThreadPoolExecutor</code>, so the timeout is armed off the main thread and raises.</span></div>
-  </div>
-  <p class="sub">
-    The timeout was removed and the reason recorded in the suite file so nobody re-adds it. Coverage
-    is not lost: every wait is already bounded by its own ceiling in <code>config.py</code>, and the CI
-    job caps at ten minutes. The wider lesson is that a suite which only ever runs on one operating
-    system has an untested dimension — CI on Linux was the first thing to exercise it.
-  </p>
-</div></section>
-
-<section id="pipeline"><div class="wrap">
-  <h2>Where the pipeline belongs</h2>
-  <p class="sub">
-    As written, the workflow lives in this repository and triggers on its own pushes — correct while
-    the tests are the thing being changed. In a real delivery pipeline the trigger usually belongs to
-    the <em>application</em> repository instead: a developer opens a pull request, or a release lands
-    on staging, and that repository runs this suite as a quality gate.
-  </p>
-  <p class="sub">
-    Nothing in the suite changes for that. It takes its target from <code>BEE_TICK_BASE_URL</code>, so
-    the caller points it at whichever environment was just deployed.
-  </p>
-  <table>
-    <tr><th>Approach</th><th>How it works</th><th>Fits when</th></tr>
-    <tr>
-      <td><code>workflow_call</code></td>
-      <td>This workflow is marked reusable; the application repository invokes it as a job and receives pass/fail inline in its own checks.</td>
-      <td>Both repositories sit in the same GitHub organisation. Simplest, and results block the pull request directly.</td>
-    </tr>
-    <tr>
-      <td><code>repository_dispatch</code></td>
-      <td>The application's pipeline sends an event carrying the deployed URL; this repository runs and reports back through a commit status.</td>
-      <td>The application lives elsewhere — another organisation, GitLab, Jenkins — or the suite also runs on its own schedule.</td>
-    </tr>
-  </table>
-
-  <p class="sub" style="margin-top:18px;">Making it callable is a small addition to the trigger block:</p>
-<pre>on:
-  workflow_call:
-    inputs:
-      base_url:
-        type: string
-        required: true
-
-jobs:
-  robot-e2e:
-    env:
-      BEE_TICK_BASE_URL: ${{ inputs.base_url }}</pre>
-  <p class="sub" style="margin-top:14px;">And from the application repository, after its deploy job:</p>
-<pre>e2e:
-  needs: deploy-staging
-  uses: MohamedRaslan/beetick/.github/workflows/e2e.yml@main
-  with:
-    base_url: https://staging.example.com/en</pre>
-</div></section>
-
-<section id="next"><div class="wrap">
-  <h2>What I would do next</h2>
-  <p class="sub">Deliberately out of scope for a single-scenario assignment, in the order I would add them.</p>
-  <div class="notes">
-    <div class="note">
-      <b>More of the journey, not more frameworks</b>
-      <p>Cart quantity changes, removal, and the empty-cart state are the obvious next scenarios. They
-      reuse every component already built.</p>
-    </div>
-    <div class="note">
-      <b>A pinned environment for visual checks</b>
-      <p>Once a staging environment with fixed catalogue data exists, screenshot baselines become
-      meaningful and the image assertion's blind spot closes.</p>
-    </div>
-    <div class="note">
-      <b>Watch artifact size</b>
-      <p>The published demo includes HTML reports, traces, and videos. Worth trimming retained media or
-      splitting old history once the suite grows.</p>
-    </div>
-    <div class="note">
-      <b>Cross-browser on a schedule</b>
-      <p>Chromium covers the journey today. Firefox and WebKit belong on a nightly run rather than in
-      the pull-request path, where they would triple the feedback time.</p>
+      <b>Reports are refreshed by CI</b>
+      <p>The latest reports are published on GitHub Pages. Older runs are stored only as timing/history data.</p>
     </div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
-  <a class="back" href="index.html">&larr; Back to the demo</a>
+  <a class="back" href="index.html">&larr; Back to demo</a>
 </div></footer>
 
 </body>

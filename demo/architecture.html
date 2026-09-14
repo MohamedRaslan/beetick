@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Architecture — B.TECH Automation</title>
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="index.html" class="strong">&larr; Back to demo</a>
+  <a href="#layers">Layers</a>
+  <a href="#robot">Robot</a>
+  <a href="#playwright">Playwright</a>
+  <a href="#ci">CI</a>
+  <a href="notes.html">Engineering notes &rarr;</a>
+</div></nav>
+
+<a class="repo-card" href="https://github.com/MohamedRaslan/beetick">
+  <span>Repository</span>
+  <b>MohamedRaslan / beetick</b>
+</a>
+
+<header><div class="wrap">
+  <div class="eyebrow">Architecture</div>
+  <h1>One journey, two automation styles</h1>
+  <p class="lede">
+    The two suites test the same behaviour with different tools. The useful part is the shared
+    shape: readable scenario, orchestration layer, scoped pages/components, and small helpers.
+  </p>
+</div></header>
+
+<section id="layers"><div class="wrap">
+  <h2>Shared layers</h2>
+  <div class="layers">
+    <div class="layer"><b>Scenario</b><span>Owns the product term and reads as the journey.</span></div>
+    <div class="layer"><b>Flow / app</b><span>Coordinates pages and carries the selected product name between steps.</span></div>
+    <div class="layer"><b>Pages / components</b><span>Own locators and user-visible behaviour for one route or UI area.</span></div>
+    <div class="layer"><b>Helpers / API</b><span>Keep pure checks such as title matching, image state, URL parsing, and add-to-cart payload validation.</span></div>
+  </div>
+</div></section>
+
+<section id="robot"><div class="wrap">
+  <h2>Robot Framework</h2>
+  <p class="sub">Robot is the readable submission layer. Resource files own locators; Python helpers stay value-only.</p>
+  <div class="two">
+    <div class="card">
+<pre>robot/
+  tests/
+    btech_cart.robot
+  resources/
+    flows/
+    pages/
+    components/
+    api/
+    assertions/
+  libraries/
+    cart.py
+    images.py
+    search.py
+  README.md</pre>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Why this split</h3>
+      <ul class="plain">
+        <li>Test files stay business-readable.</li>
+        <li>Locators are close to the UI area they describe.</li>
+        <li>Python is used only where code is clearer than table syntax.</li>
+        <li>Browser Library still produces the detailed keyword log.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="playwright"><div class="wrap">
+  <h2>Playwright TypeScript</h2>
+  <p class="sub">Playwright is the code-first implementation. Fixtures provide isolation; page and component objects keep selectors scoped.</p>
+  <div class="two">
+    <div class="card">
+<pre>playwright/
+  tests/
+    btech-cart.spec.ts
+  src/
+    app/
+    pages/
+    components/
+    api/
+    support/
+    fixtures/
+  README.md</pre>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">What it demonstrates</h3>
+      <ul class="plain">
+        <li><code>test.step</code> makes the report read like the scenario.</li>
+        <li>Components receive a root locator and stay inside their subtree.</li>
+        <li>The add-to-cart request is checked at the network layer.</li>
+        <li>Trace and video are enabled only for demo/CI evidence mode.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="ci"><div class="wrap">
+  <h2>CI and demo publishing</h2>
+  <p class="sub">Each push to <code>main</code> starts a clean run.</p>
+  <div class="layers">
+    <div class="layer"><b>Robot job</b><span>Installs Python dependencies, initializes Chromium, runs Robot, and uploads the latest Robot results.</span></div>
+    <div class="layer"><b>Playwright job</b><span>Installs Node dependencies, typechecks, runs Playwright with demo trace/video mode, and uploads the latest report.</span></div>
+    <div class="layer"><b>Publish job</b><span>Downloads the fresh artifacts, restores old <code>runs.json</code>, appends the new timing record, captures the preview image, and deploys GitHub Pages.</span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="back" href="index.html">&larr; Back to demo</a>
+</div></footer>
+
+</body>
+</html>

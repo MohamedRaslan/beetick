@@ -17,14 +17,16 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
 <nav><div class="wrap">
   <a href="#assignment">Assignment</a>
   <a href="#implementations">Implementations</a>
-  <a href="#architecture">Architecture</a>
   <a href="#reports">Reports</a>
-  <a href="#ci">CI</a>
-  <a href="#history">History</a>
   <a href="#run">Run it</a>
-  <a href="https://github.com/MohamedRaslan/beetick">Repository</a>
+  <a href="architecture.html">Architecture &rarr;</a>
   <a href="notes.html" class="strong">Engineering notes &rarr;</a>
 </div></nav>
+
+<a class="repo-card" href="https://github.com/MohamedRaslan/beetick">
+  <span>Repository</span>
+  <b>MohamedRaslan / beetick</b>
+</a>
 
 <header><div class="wrap">
   <div class="eyebrow">Test automation assignment</div>
@@ -70,10 +72,51 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
   </div>
 
   <p class="viewing">
-    <b>Published evidence:</b> This page is deployed by GitHub Actions after the Robot and
-    Playwright jobs finish. The latest full reports are served here; older runs stay in
-    <code>runs.json</code> for trends.
+    <b>Fresh on every push:</b> GitHub Actions reruns both suites on <code>main</code>,
+    republishes the latest reports here, and appends the timing data to <code>runs.json</code>.
+    Locally, run <code>python demo/refresh.py</code> and open this file from disk.
   </p>
+
+  <div class="history-card card">
+    <div class="runtop">
+      <span class="runname">Run history</span>
+      <a href="runs.json">runs.json</a>
+    </div>
+    <div class="summary">
+      <div class="stat">
+        <div class="n" data-history-count>-</div>
+        <div class="k">Runs</div>
+      </div>
+      <div class="stat">
+        <div class="n" data-history-pass-rate>-</div>
+        <div class="k">Pass rate</div>
+      </div>
+      <div class="stat">
+        <div class="n" data-history-robot-average>-</div>
+        <div class="k">Avg Robot</div>
+      </div>
+      <div class="stat">
+        <div class="n" data-history-playwright-average>-</div>
+        <div class="k">Avg Playwright</div>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Generated</th>
+          <th>Run</th>
+          <th>Status</th>
+          <th>Robot</th>
+          <th>Playwright</th>
+          <th>Total</th>
+          <th>Commit</th>
+        </tr>
+        <tbody data-history-body>
+          <tr><td colspan="7">Loading history...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div></header>
 
 <section id="assignment"><div class="wrap">
@@ -134,104 +177,69 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
   </div>
 </div></section>
 
-<section id="architecture"><div class="wrap">
-  <h2>Separation of concerns</h2>
-  <p class="sub">Both implementations use the same four layers. The names differ; the boundaries do not.</p>
-  <div class="layers">
-    <div class="layer"><b>Test</b><span>Reads as the business journey. Owns test data (<code>iphone17</code>) and nothing else.</span></div>
-    <div class="layer"><b>Flow / App</b><span>Owns the order of the journey and the state carried between steps, such as the selected product name.</span></div>
-    <div class="layer"><b>Pages &amp; components</b><span>Own locators and the behaviour of one route or one UI area. Scoped to a root, so repeated elements cannot collide.</span></div>
-    <div class="layer"><b>Helpers &amp; API observers</b><span>Pure logic: text normalization, URL parsing, payload assertions, image state. Value in, assertion out — no locators.</span></div>
-  </div>
-</div></section>
-
 <section id="reports"><div class="wrap">
-  <h2>Execution evidence</h2>
-  <p class="sub">The latest generated reports are published with this page. Older runs are kept as lightweight history data.</p>
-  <table>
-    <tr><th>Artifact</th><th>What it shows</th></tr>
-    <tr><td><a href="reports/robot/report.html">Robot report</a></td><td>Pass/fail summary, tags, and timing.</td></tr>
-    <tr><td><a href="reports/robot/log.html">Robot log</a></td><td>Every keyword, argument, and assertion in execution order.</td></tr>
-    <tr><td><a href="reports/robot/robot-video.webm">Robot video</a></td><td>Recorded showcase run for quick visual review.</td></tr>
-    <tr><td><a href="reports/robot/robot-trace.zip">Robot trace ZIP</a></td><td>Browser Library trace captured at context level.</td></tr>
-    <tr><td><a href="reports/playwright/index.html">Playwright report</a></td><td>The journey in named steps, with the run's video and trace attached.</td></tr>
-    <tr><td><a href="reports/playwright/playwright-video.webm">Playwright video</a></td><td>Recorded showcase run for quick visual review.</td></tr>
-    <tr><td><a href="reports/playwright/playwright-trace.zip">Playwright trace ZIP</a></td><td>Downloadable trace for Trace Viewer.</td></tr>
-    <tr><td><a data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">Latest workflow run</a></td><td>GitHub Actions run that produced the published report snapshot.</td></tr>
-    <tr><td><a href="runs.json">Run history JSON</a></td><td>The static data file this page uses for timings, averages, and pass rate.</td></tr>
-    <tr><td><a href="https://github.com/MohamedRaslan/beetick/blob/main/.github/workflows/e2e.yml">Workflow file</a></td><td>The CI definition that runs both suites and publishes this dashboard.</td></tr>
-  </table>
+  <h2>Latest reports</h2>
+  <p class="sub">Open the last published report snapshot directly from this domain.</p>
+  <div class="report-grid">
+    <a class="report-card primary" href="reports/playwright/index.html">
+      <b>Playwright report</b>
+      <span>HTML report with trace and video attachments</span>
+    </a>
+    <a class="report-card primary" href="reports/robot/report.html">
+      <b>Robot report</b>
+      <span>Summary report from the same CI run</span>
+    </a>
+    <a class="report-card" href="reports/robot/log.html">
+      <b>Robot step log</b>
+      <span>Keyword-by-keyword execution details</span>
+    </a>
+    <a class="report-card" href="reports/playwright/playwright-video.webm">
+      <b>Playwright video</b>
+      <span>Quick playback of the browser run</span>
+    </a>
+    <a class="report-card" href="reports/robot/robot-video.webm">
+      <b>Robot video</b>
+      <span>Recorded Browser Library run</span>
+    </a>
+    <a class="report-card" href="reports/playwright/playwright-trace.zip">
+      <b>Playwright trace</b>
+      <span>Downloadable trace archive</span>
+    </a>
+    <a class="report-card" href="reports/robot/robot-trace.zip">
+      <b>Robot trace</b>
+      <span>Browser Library trace archive</span>
+    </a>
+    <a class="report-card" data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">
+      <b>Workflow run</b>
+      <span>Artifacts and raw CI result files</span>
+    </a>
+  </div>
 </div></section>
 
-<section id="ci"><div class="wrap">
-  <h2>Continuous integration</h2>
-  <p class="sub">Both suites run as parallel jobs on GitHub Actions. A publish job reads their fresh results, updates <code>runs.json</code>, and deploys this dashboard with the latest report snapshot.</p>
-  <div class="card">
-    <div class="runtop">
-      <span class="runname" data-latest-run-title>Latest run</span>
-      <span class="pill" data-latest-run-status>PASSED</span>
-    </div>
-    <div class="btnrow" style="margin-top:14px;">
-      <a class="btn primary" data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">View the run</a>
-      <a class="btn" href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">All runs</a>
-      <a class="btn" href="https://github.com/MohamedRaslan/beetick/blob/main/.github/workflows/e2e.yml">Workflow file</a>
-      <a class="btn" href="https://github.com/MohamedRaslan/beetick">Repository</a>
-    </div>
+<section id="architecture-teaser"><div class="wrap">
+  <h2>Architecture</h2>
+  <p class="sub">Both implementations use the same idea: a readable test at the top, page/component objects in the middle, and small helpers for pure logic.</p>
+  <div class="layers compact">
+    <div class="layer"><b>Robot</b><span>Test keywords call resource files. Resource files own locators. Python helpers handle value-only logic.</span></div>
+    <div class="layer"><b>Playwright</b><span>The spec uses fixtures and <code>test.step</code>. Pages and components own scoped locators.</span></div>
+    <div class="layer"><b>CI</b><span>Every push to <code>main</code> runs fresh tests, publishes the latest reports, and appends timing history.</span></div>
   </div>
-  <p class="sub" style="margin-top:16px;">
-    In a real delivery pipeline this suite is usually triggered by the <em>application</em>
-    repository rather than by its own pushes — that wiring is covered in the
-    <a href="notes.html#pipeline">engineering notes</a>.
-  </p>
-</div></section>
-
-<section id="history"><div class="wrap">
-  <h2>Execution history</h2>
-  <p class="sub">Each GitHub Pages deployment appends the current run to <code>runs.json</code>, then this page renders the trend client-side.</p>
-  <div class="summary">
-    <div class="card stat">
-      <div class="n" data-history-count>-</div>
-      <div class="k">Published runs</div>
-    </div>
-    <div class="card stat">
-      <div class="n" data-history-pass-rate>-</div>
-      <div class="k">Pass rate</div>
-    </div>
-    <div class="card stat">
-      <div class="n" data-history-robot-average>-</div>
-      <div class="k">Avg Robot</div>
-    </div>
-    <div class="card stat">
-      <div class="n" data-history-playwright-average>-</div>
-      <div class="k">Avg Playwright</div>
-    </div>
+  <div class="btnrow architecture-actions">
+    <a class="btn primary" href="architecture.html">View architecture</a>
+    <a class="btn" href="https://github.com/MohamedRaslan/beetick">Open repository</a>
   </div>
-  <table>
-    <tr>
-      <th>Generated</th>
-      <th>Run</th>
-      <th>Status</th>
-      <th>Robot</th>
-      <th>Playwright</th>
-      <th>Total</th>
-      <th>Commit</th>
-    </tr>
-    <tbody data-history-body>
-      <tr><td colspan="7">Loading history...</td></tr>
-    </tbody>
-  </table>
 </div></section>
 
 <section id="run"><div class="wrap">
   <h2>Run it yourself</h2>
   <p class="sub">No application to deploy, no test data to seed, no credentials.</p>
   <div class="card refresh">
-    <h3 style="margin:0 0 10px;">Refresh this demo</h3>
+    <h3 style="margin:0 0 10px;">Refresh the local demo</h3>
 <pre>python demo/refresh.py
 python demo/refresh.py --skip-runs</pre>
     <p class="sub" style="margin:12px 0 0;font-size:13px;">
-      The first command reruns both suites in showcase mode, updates local metrics/history, and refreshes the preview image.
-      The second command mirrors the GitHub Pages publish step from existing reports.
+      The first command reruns both suites in showcase mode and updates local metrics/history.
+      The second command rebuilds the demo from existing reports.
     </p>
   </div>
   <div class="two">
@@ -256,14 +264,16 @@ pnpm test</pre>
 </div></section>
 
 <section id="deeper"><div class="wrap">
-  <a class="more" href="notes.html">
-    <b>Engineering notes &rarr;</b>
-    <span>
-      The judgement calls and their limits: what the image assertion does and does not prove,
-      why visual regression was rejected, how the cart mutation is verified, a portability bug
-      CI caught, and how to trigger this suite from an application repository.
-    </span>
-  </a>
+  <div class="two">
+    <a class="more" href="architecture.html">
+      <b>Architecture &rarr;</b>
+      <span>Layering, folder layout, and how the two implementations map to the same journey.</span>
+    </a>
+    <a class="more" href="notes.html">
+      <b>Engineering notes &rarr;</b>
+      <span>Short notes on selectors, image checks, add-to-cart verification, and CI publishing.</span>
+    </a>
+  </div>
 </div></section>
 
 <footer><div class="wrap">

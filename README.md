@@ -20,14 +20,9 @@ Nothing is mocked. There is no application to deploy, no test data to seed, and 
 
 **Live demo:** https://mohamedraslan.github.io/beetick/
 
+**Architecture:** https://mohamedraslan.github.io/beetick/architecture.html
+
 The GitHub Pages demo is updated by CI after the Robot and Playwright jobs finish. It includes the assignment walkthrough, latest status cards, direct links to the latest reports/videos/traces, execution history, and average timings.
-
-For a local copy, regenerate the reports first:
-
-```bash
-python demo/refresh.py
-python demo/serve.py      # opens http://127.0.0.1:8000/demo/
-```
 
 ## Quick start
 
@@ -71,8 +66,6 @@ Website: https://mohamedraslan.github.io/beetick/
 
 | Path | What it is |
 | --- | --- |
-| [`demo/`](demo/index.html) | Visual walkthrough published to GitHub Pages with latest reports and historical run data |
-| [`demo/notes.html`](demo/notes.html) | Engineering notes: decisions, limits, and pipeline placement |
 | [`robot/`](robot/README.md) | Robot Framework implementation — setup, wait policy, configuration |
 | [`playwright/`](playwright/README.md) | Playwright TypeScript implementation — setup, wait policy, reporting |
-| [`.github/workflows/e2e.yml`](.github/workflows/e2e.yml) | CI running both suites as parallel jobs |
+| [`.github/workflows/e2e.yml`](.github/workflows/e2e.yml) | CI workflow that runs both suites and publishes the live dashboard |
