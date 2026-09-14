@@ -4,9 +4,9 @@ Default usage runs both suites in showcase mode for local review:
 
     python demo/refresh.py
 
-Use ``--skip-runs --summary-only`` in CI after downloading the fresh run
-artifacts. That updates the published dashboard without publishing the generated
-HTML reports themselves.
+Use ``--skip-runs`` in CI after downloading the fresh run artifacts. That
+updates the published dashboard and includes the latest generated report
+snapshot. ``--summary-only`` is available when only the dashboard data is needed.
 """
 
 from __future__ import annotations

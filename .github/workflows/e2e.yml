@@ -135,11 +135,17 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm exec playwright install --with-deps chromium
 
-      - name: Download Robot result data
+      - name: Download Robot report
         uses: actions/download-artifact@v4
         with:
           name: robot-results
-          path: robot/results
+          path: demo/reports/robot
+
+      - name: Download Playwright report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: demo/reports/playwright
 
       - name: Download Playwright result data
         uses: actions/download-artifact@v4
@@ -152,7 +158,7 @@ jobs:
         run: curl --fail --location --silent --show-error https://mohamedraslan.github.io/beetick/runs.json --output demo/runs.json
 
       - name: Refresh demo metrics and preview
-        run: python demo/refresh.py --skip-runs --summary-only
+        run: python demo/refresh.py --skip-runs
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

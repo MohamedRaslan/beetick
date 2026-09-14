@@ -1,8 +1,10 @@
-# B.TECH Test Automation
+# beetick
+
+Dual-framework E2E automation showcase with Robot Framework, Playwright TypeScript, CI-generated evidence, videos, traces, and a live dashboard.
 
 [![E2E](https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml/badge.svg)](https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml)
 
-The B.TECH search-to-cart journey, implemented twice against the live storefront:
+The required search-to-cart journey, implemented twice against the live storefront:
 
 1. Open `https://btech.com/en`
 2. Search for `iphone17`
@@ -14,11 +16,11 @@ Nothing is mocked. There is no application to deploy, no test data to seed, and 
 
 ## Start here
 
-[![B.TECH automation demo preview](https://mohamedraslan.github.io/beetick/preview.png)](https://mohamedraslan.github.io/beetick/)
+[![Automation demo preview](https://mohamedraslan.github.io/beetick/preview.png)](https://mohamedraslan.github.io/beetick/)
 
 **Live demo:** https://mohamedraslan.github.io/beetick/
 
-The GitHub Pages demo is updated by CI after the Robot and Playwright jobs finish. It includes the assignment walkthrough, latest status cards, execution history, average timings, and links back to the workflow artifacts for the full reports, videos, and traces.
+The GitHub Pages demo is updated by CI after the Robot and Playwright jobs finish. It includes the assignment walkthrough, latest status cards, direct links to the latest reports/videos/traces, execution history, and average timings.
 
 For a local copy, regenerate the reports first:
 
@@ -56,13 +58,20 @@ Both default to headless Chromium. For a visible browser use `--variable HEADLES
 
 ## GitHub Pages
 
-The workflow publishes the demo on every push to `main` or `master`, and can also be run manually from the Actions tab. In GitHub, set **Settings > Pages > Build and deployment > Source** to **GitHub Actions** once, then push normally.
+The workflow publishes the demo on every push to `main`, and can also be run manually from the Actions tab. In GitHub, set **Settings > Pages > Build and deployment > Source** to **GitHub Actions** once, then push normally.
+
+Suggested GitHub About:
+
+```text
+Description: Dual-framework E2E automation showcase with Robot Framework, Playwright TypeScript, CI evidence, videos, traces, and a live dashboard.
+Website: https://mohamedraslan.github.io/beetick/
+```
 
 ## Repository map
 
 | Path | What it is |
 | --- | --- |
-| [`demo/`](demo/index.html) | Visual walkthrough published to GitHub Pages with CI-generated reports |
+| [`demo/`](demo/index.html) | Visual walkthrough published to GitHub Pages with latest reports and historical run data |
 | [`demo/notes.html`](demo/notes.html) | Engineering notes: decisions, limits, and pipeline placement |
 | [`robot/`](robot/README.md) | Robot Framework implementation — setup, wait policy, configuration |
 | [`playwright/`](playwright/README.md) | Playwright TypeScript implementation — setup, wait policy, reporting |

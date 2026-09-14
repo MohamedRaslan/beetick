@@ -22,19 +22,18 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
   workers: 1,
-  reporter: isDemoReport
-    ? [
-        ["list"],
-        ["json", { outputFile: "test-results/demo-results.json" }],
-        ["html", { open: "never", outputFolder: "playwright-report" }],
-      ]
-    : process.env.CI
+  reporter: process.env.CI
     ? [
         ["github"],
         ["junit", { outputFile: "test-results/junit.xml" }],
+        ...(isDemoReport ? ([["json", { outputFile: "test-results/demo-results.json" }]] as const) : []),
         ["html", { open: "never", outputFolder: "playwright-report" }],
       ]
-    : [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]],
+    : [
+        ["list"],
+        ...(isDemoReport ? ([["json", { outputFile: "test-results/demo-results.json" }]] as const) : []),
+        ["html", { open: "never", outputFolder: "playwright-report" }],
+      ],
   use: {
     baseURL: parsedBaseURL.toString(),
     headless: true,

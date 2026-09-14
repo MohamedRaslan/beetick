@@ -22,6 +22,7 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
   <a href="#ci">CI</a>
   <a href="#history">History</a>
   <a href="#run">Run it</a>
+  <a href="https://github.com/MohamedRaslan/beetick">Repository</a>
   <a href="notes.html" class="strong">Engineering notes &rarr;</a>
 </div></nav>
 
@@ -46,8 +47,8 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
         <div class="metric"><div class="n" data-metric="robot-tests">1/1</div><div class="k">Tests</div></div>
       </div>
       <div class="btnrow">
-        <a class="btn primary" data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">Latest CI run</a>
-        <a class="btn" href="#history">Run history</a>
+        <a class="btn primary" href="reports/robot/report.html">Open report</a>
+        <a class="btn" href="reports/robot/log.html">Step log</a>
       </div>
     </div>
 
@@ -62,7 +63,7 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
         <div class="metric"><div class="n" data-metric="pw-tests">1/1</div><div class="k">Tests</div></div>
       </div>
       <div class="btnrow">
-        <a class="btn primary" data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">Latest CI run</a>
+        <a class="btn primary" href="reports/playwright/index.html">Open report</a>
         <a class="btn" href="https://github.com/MohamedRaslan/beetick/blob/main/playwright/tests/btech-cart.spec.ts">Read the spec</a>
       </div>
     </div>
@@ -70,8 +71,8 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
 
   <p class="viewing">
     <b>Published evidence:</b> This page is deployed by GitHub Actions after the Robot and
-    Playwright jobs finish. For local review, run <code>python demo/refresh.py</code> to recreate
-    <code>demo/reports/</code>, then <code>python demo/serve.py</code>.
+    Playwright jobs finish. The latest full reports are served here; older runs stay in
+    <code>runs.json</code> for trends.
   </p>
 </div></header>
 
@@ -146,10 +147,17 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
 
 <section id="reports"><div class="wrap">
   <h2>Execution evidence</h2>
-  <p class="sub">The full generated reports stay with the workflow run. This public page keeps the lightweight summary and history.</p>
+  <p class="sub">The latest generated reports are published with this page. Older runs are kept as lightweight history data.</p>
   <table>
     <tr><th>Artifact</th><th>What it shows</th></tr>
-    <tr><td><a data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">Latest workflow run</a></td><td>Download Robot and Playwright reports, videos, traces, xUnit, and JSON output from the run artifacts.</td></tr>
+    <tr><td><a href="reports/robot/report.html">Robot report</a></td><td>Pass/fail summary, tags, and timing.</td></tr>
+    <tr><td><a href="reports/robot/log.html">Robot log</a></td><td>Every keyword, argument, and assertion in execution order.</td></tr>
+    <tr><td><a href="reports/robot/robot-video.webm">Robot video</a></td><td>Recorded showcase run for quick visual review.</td></tr>
+    <tr><td><a href="reports/robot/robot-trace.zip">Robot trace ZIP</a></td><td>Browser Library trace captured at context level.</td></tr>
+    <tr><td><a href="reports/playwright/index.html">Playwright report</a></td><td>The journey in named steps, with the run's video and trace attached.</td></tr>
+    <tr><td><a href="reports/playwright/playwright-video.webm">Playwright video</a></td><td>Recorded showcase run for quick visual review.</td></tr>
+    <tr><td><a href="reports/playwright/playwright-trace.zip">Playwright trace ZIP</a></td><td>Downloadable trace for Trace Viewer.</td></tr>
+    <tr><td><a data-latest-run-link href="https://github.com/MohamedRaslan/beetick/actions/workflows/e2e.yml">Latest workflow run</a></td><td>GitHub Actions run that produced the published report snapshot.</td></tr>
     <tr><td><a href="runs.json">Run history JSON</a></td><td>The static data file this page uses for timings, averages, and pass rate.</td></tr>
     <tr><td><a href="https://github.com/MohamedRaslan/beetick/blob/main/.github/workflows/e2e.yml">Workflow file</a></td><td>The CI definition that runs both suites and publishes this dashboard.</td></tr>
   </table>
@@ -157,7 +165,7 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
 
 <section id="ci"><div class="wrap">
   <h2>Continuous integration</h2>
-  <p class="sub">Both suites run as parallel jobs on GitHub Actions. A publish job reads their fresh results, updates <code>runs.json</code>, and deploys this GitHub Pages dashboard.</p>
+  <p class="sub">Both suites run as parallel jobs on GitHub Actions. A publish job reads their fresh results, updates <code>runs.json</code>, and deploys this dashboard with the latest report snapshot.</p>
   <div class="card">
     <div class="runtop">
       <span class="runname" data-latest-run-title>Latest run</span>
@@ -220,10 +228,10 @@ if (demoTheme) document.documentElement.dataset.theme = demoTheme;
   <div class="card refresh">
     <h3 style="margin:0 0 10px;">Refresh this demo</h3>
 <pre>python demo/refresh.py
-python demo/refresh.py --skip-runs --summary-only</pre>
+python demo/refresh.py --skip-runs</pre>
     <p class="sub" style="margin:12px 0 0;font-size:13px;">
       The first command reruns both suites in showcase mode, updates local metrics/history, and refreshes the preview image.
-      The second command mirrors the GitHub Pages publish step from existing result files.
+      The second command mirrors the GitHub Pages publish step from existing reports.
     </p>
   </div>
   <div class="two">
