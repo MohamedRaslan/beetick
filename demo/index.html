@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>B.TECH Search-to-Cart Automation</title>
+<link rel="icon" href="data:," />
+<style>
+  :root {
+    --bg: #f7f7f8;
+    --panel: #ffffff;
+    --ink: #16181d;
+    --muted: #5c6370;
+    --line: #e3e5ea;
+    --accent: #1f4ed8;
+    --accent-soft: #eef2ff;
+    --pass: #0f7b46;
+    --pass-soft: #e7f6ee;
+    --robot: #3b6ef0;
+    --pw: #b4531f;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115;
+      --panel: #171a21;
+      --ink: #e8eaee;
+      --muted: #a0a7b4;
+      --line: #272b34;
+      --accent: #7f9cff;
+      --accent-soft: #1b2237;
+      --pass: #4ecb8d;
+      --pass-soft: #12291f;
+      --robot: #7f9cff;
+      --pw: #e8935c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; gap: 22px; flex-wrap: wrap; padding-block: 12px; font-size: 13.5px; }
+  nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+  nav a:hover { color: var(--ink); }
+
+  header { padding-block: 48px 32px; }
+  .eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { font-size: clamp(28px, 4.4vw, 42px); line-height: 1.15; margin: 10px 0 12px; letter-spacing: -.02em; }
+  .lede { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; margin-top: 28px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px;
+  }
+  .card.run { border-left: 4px solid var(--robot); }
+  .card.run.pw { border-left-color: var(--pw); }
+  .runtop { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .runname { font-weight: 650; font-size: 15.5px; }
+  .pill {
+    background: var(--pass-soft); color: var(--pass); border-radius: 999px;
+    padding: 3px 10px; font-size: 12px; font-weight: 700; letter-spacing: .04em;
+  }
+  .metrics { display: flex; gap: 20px; margin: 14px 0 16px; }
+  .metric .n { font-size: 21px; font-weight: 680; letter-spacing: -.01em; }
+  .metric .k { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; text-decoration: none; font-size: 13px; font-weight: 600;
+    padding: 7px 13px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink); background: transparent;
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:hover { border-color: var(--accent); }
+
+  section { padding-block: 34px; border-top: 1px solid var(--line); }
+  h2 { font-size: 21px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 20px; max-width: 70ch; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 10px; counter-reset: s; }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 15px; }
+  .step::before {
+    counter-increment: s; content: counter(s);
+    display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px;
+    background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; margin-bottom: 8px;
+  }
+  .step p { margin: 0; font-size: 14px; }
+
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .impl h3 { margin: 0 0 4px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .impl .role { font-size: 12px; color: var(--muted); margin: 0 0 14px; }
+  .impl ul { margin: 0 0 14px; padding-left: 18px; }
+  .impl li { margin-bottom: 5px; font-size: 14px; }
+  pre {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 14px; overflow-x: auto; margin: 0;
+    font: 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .93em; }
+
+  .layers { display: grid; gap: 8px; }
+  .layer {
+    background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 9px; padding: 12px 15px; display: grid; grid-template-columns: 190px 1fr; gap: 14px; align-items: baseline;
+  }
+  .layer b { font-size: 14px; }
+  .layer span { color: var(--muted); font-size: 13.5px; }
+  @media (max-width: 620px) { .layer { grid-template-columns: 1fr; gap: 4px; } }
+
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .note { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 17px; }
+  .note b { display: block; font-size: 14px; margin-bottom: 5px; }
+  .note p { margin: 0; font-size: 13.5px; color: var(--muted); }
+
+  .todo {
+    background: var(--accent-soft); border: 1px dashed var(--accent); color: var(--ink);
+    border-radius: 9px; padding: 13px 16px; font-size: 13.5px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  footer { padding-block: 30px 50px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+  .viewing {
+    margin: 16px 0 0; padding: 13px 16px; font-size: 13.5px; color: var(--muted);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  }
+  .viewing b { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#assignment">Assignment</a>
+  <a href="#implementations">Implementations</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#reports">Reports</a>
+  <a href="#decisions">Decisions</a>
+  <a href="#ci">CI/CD</a>
+  <a href="#run">Run it</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">Test automation assignment</div>
+  <h1>B.TECH search-to-cart, automated twice</h1>
+  <p class="lede">
+    The same end-to-end journey on the live B.TECH storefront, implemented independently in
+    Robot Framework and in Playwright TypeScript. Both suites below were executed against
+    production and their real reports are attached.
+  </p>
+
+  <div class="status">
+    <div class="card run">
+      <div class="runtop">
+        <span class="runname">Robot Framework</span>
+        <span class="pill">PASSED</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="n">25.1s</div><div class="k">Duration</div></div>
+        <div class="metric"><div class="n">90</div><div class="k">Logged steps</div></div>
+        <div class="metric"><div class="n">1/1</div><div class="k">Tests</div></div>
+      </div>
+      <div class="btnrow">
+        <a class="btn primary" href="reports/robot/report.html">Open report</a>
+        <a class="btn" href="reports/robot/log.html">Step log</a>
+        <a class="btn" href="reports/robot/xunit.xml">xUnit XML</a>
+      </div>
+    </div>
+
+    <div class="card run pw">
+      <div class="runtop">
+        <span class="runname">Playwright TypeScript</span>
+        <span class="pill">PASSED</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="n">22.5s</div><div class="k">Duration</div></div>
+        <div class="metric"><div class="n">5</div><div class="k">Test steps</div></div>
+        <div class="metric"><div class="n">1/1</div><div class="k">Tests</div></div>
+      </div>
+      <div class="btnrow">
+        <a class="btn primary" href="reports/playwright/index.html">Open report</a>
+        <a class="btn" href="../playwright/tests/btech-cart.spec.ts">Read the spec</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="viewing">
+    <b>Viewing this offline?</b> Every link here works by opening <code>demo/index.html</code> straight
+    from disk — including the recorded video. Playwright's trace viewer is the one exception: it refuses
+    to load over <code>file://</code>. Run <code>python demo/serve.py</code> (standard library only, no
+    install) and the whole demo, trace included, opens at <code>http://127.0.0.1:8000/demo/</code>.
+  </p>
+</div></header>
+
+<section id="assignment"><div class="wrap">
+  <h2>The assignment</h2>
+  <p class="sub">Five required steps. Both implementations cover all five against the real site — nothing is mocked.</p>
+  <div class="steps">
+    <div class="step"><p>Open the B.TECH website.</p></div>
+    <div class="step"><p>Search for <code>iphone17</code>.</p></div>
+    <div class="step"><p>Select the first result and assert it has an image.</p></div>
+    <div class="step"><p>Add it to the cart.</p></div>
+    <div class="step"><p>Navigate to the cart.</p></div>
+  </div>
+</div></section>
+
+<section id="implementations"><div class="wrap">
+  <h2>Two implementations</h2>
+  <p class="sub">Robot Framework is the primary submission. Playwright TypeScript is a deliberate second opinion: the same journey written in the idiom of a code-first framework.</p>
+  <div class="two">
+    <div class="card impl">
+      <h3><span class="dot" style="background:var(--robot)"></span> Robot Framework</h3>
+      <p class="role">Primary &middot; Browser Library (Playwright engine)</p>
+      <ul>
+        <li>Every browser action is a Browser Library keyword, so all 90 steps appear in <code>log.html</code>.</li>
+        <li>Python is reserved for what reads badly as table syntax — and never touches a locator.</li>
+        <li>Locators live in the resource that owns the UI area.</li>
+      </ul>
+<pre>robot/
+  config.py            single settings module
+  tests/               the scenario
+  resources/
+    flows/             journey vocabulary
+    pages/             route behaviour
+    components/        header, cart drawer
+    api/               response matchers
+    assertions/        image checks
+  libraries/           value-only Python</pre>
+    </div>
+
+    <div class="card impl">
+      <h3><span class="dot" style="background:var(--pw)"></span> Playwright TypeScript</h3>
+      <p class="role">Secondary &middot; @playwright/test</p>
+      <ul>
+        <li>Components take a root <code>Locator</code>, not the page, so each owns its own subtree.</li>
+        <li>Fixtures give every test a fresh context; isolation is framework-managed.</li>
+        <li><code>test.step</code> blocks make the HTML report read as the journey.</li>
+      </ul>
+<pre>playwright/
+  playwright.config.ts
+  tests/               the spec
+  src/
+    app/               BtechApp entry point
+    pages/             route objects
+    components/        header, card, drawer
+    api/               response observers
+    support/           image + name helpers
+    fixtures/          btech fixture</pre>
+    </div>
+  </div>
+</div></section>
+
+<section id="architecture"><div class="wrap">
+  <h2>Separation of concerns</h2>
+  <p class="sub">Both implementations use the same four layers. The names differ; the boundaries do not.</p>
+  <div class="layers">
+    <div class="layer"><b>Test</b><span>Reads as the business journey. Owns test data (<code>iphone17</code>) and nothing else.</span></div>
+    <div class="layer"><b>Flow / App</b><span>Owns the order of the journey and the state carried between steps, such as the selected product name.</span></div>
+    <div class="layer"><b>Pages &amp; components</b><span>Own locators and the behaviour of one route or one UI area. Scoped to a root, so repeated elements cannot collide.</span></div>
+    <div class="layer"><b>Helpers &amp; API observers</b><span>Pure logic: text normalization, URL parsing, payload assertions, image state. Value in, assertion out — no locators.</span></div>
+  </div>
+</div></section>
+
+<section id="reports"><div class="wrap">
+  <h2>Execution evidence</h2>
+  <p class="sub">These are real artifacts from the runs above, committed so they can be reviewed without installing anything.</p>
+  <table>
+    <tr><th>Artifact</th><th>What it shows</th></tr>
+    <tr><td><a href="reports/robot/report.html">Robot report</a></td><td>Pass/fail summary, tags, and timing.</td></tr>
+    <tr><td><a href="reports/robot/log.html">Robot log</a></td><td>Every keyword, argument, and assertion in execution order — the reason Robot is the primary choice.</td></tr>
+    <tr><td><a href="reports/robot/xunit.xml">xUnit XML</a></td><td>Machine-readable output for CI result collection.</td></tr>
+    <tr><td><a href="reports/playwright/index.html">Playwright report</a></td><td>The journey broken into named steps, with the run's video and trace attached.</td></tr>
+    <tr><td>Video</td><td>Inside the Playwright report, under the test. Plays whether the demo is opened from disk or served.</td></tr>
+    <tr><td>Trace</td><td>"View Trace" in the Playwright report: every action with before/after DOM snapshots and a timeline. Needs the served view — <code>python demo/serve.py</code>.</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px;">
+    Video and trace are recorded for this demo only, through <code>playwright.demo.config.ts</code>.
+    The default configuration keeps both on failure, which is what CI and ordinary runs use.
+  </p>
+</div></section>
+
+<section id="decisions"><div class="wrap">
+  <h2>Decisions worth a minute</h2>
+  <p class="sub">The judgement calls behind the code, and their limits.</p>
+  <div class="notes">
+    <div class="note">
+      <b>Enter is pressed on the input, not the page</b>
+      <p>An open autocomplete suggestion swallows a page-level keypress and searches for something else. Both implementations target the element.</p>
+    </div>
+    <div class="note">
+      <b>The image check proves loading, not correctness</b>
+      <p><code>complete</code> plus a real intrinsic width catches broken and placeholder images. It cannot catch a valid photo of the wrong product; visual baselines were rejected because the product is selected dynamically from live results.</p>
+    </div>
+    <div class="note">
+      <b>One API contract is asserted, not mocked</b>
+      <p>Add-to-cart is observed at the network level — status, payload, and response — because it is the journey's only real mutation. Search and product pages are asserted through the UI.</p>
+    </div>
+    <div class="note">
+      <b>Startup waits on the regions response</b>
+      <p>The header renders its delivery city from that call, so the wait is registered before navigation and resolved before the header is asserted.</p>
+    </div>
+    <div class="note">
+      <b>No retries</b>
+      <p>Against a live storefront, a visible failure with a trace is more honest than a hidden retry that trains people to ignore red builds.</p>
+    </div>
+    <div class="note">
+      <b>Results are dynamic, never hardcoded</b>
+      <p>The first title-relevant result is selected at runtime and its name is carried through every later assertion, so merchandising changes cannot produce a false pass.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="ci"><div class="wrap">
+  <h2>CI/CD</h2>
+  <p class="sub">A GitHub Actions workflow runs both suites as parallel jobs and uploads every report as an artifact.</p>
+
+  <div class="todo">
+    <b>Placeholder.</b> Once this repository is pushed to GitHub and the workflow has run, link the live results here:
+    <br />Actions run: <a href="#">&lt;add workflow run URL&gt;</a> &middot; Status badge: <code>![E2E](https://github.com/&lt;owner&gt;/&lt;repo&gt;/actions/workflows/e2e.yml/badge.svg)</code>
+  </div>
+
+  <h3 style="font-size:16px;margin:26px 0 6px;">Where the pipeline lives</h3>
+  <p class="sub">
+    Today the workflow sits in this repository and triggers on its own pushes and pull requests — correct while the
+    tests are the thing being changed. In a real delivery pipeline the trigger usually belongs to the
+    <em>application</em> repository instead: a developer opens a PR, or a release is pushed to staging, and that
+    repository calls this suite as a quality gate.
+  </p>
+  <p class="sub">
+    Nothing in the suite needs to change for that. It takes its target from <code>BEE_TICK_BASE_URL</code>, so the
+    caller points it at whichever environment was just deployed. Two standard ways to wire it:
+  </p>
+  <table>
+    <tr><th>Approach</th><th>How it works</th><th>Fits when</th></tr>
+    <tr>
+      <td><code>workflow_call</code></td>
+      <td>This workflow is marked reusable; the app repository invokes it as a job and receives pass/fail inline in its own checks.</td>
+      <td>Both repositories are on the same GitHub org — the simplest option, and results block the PR directly.</td>
+    </tr>
+    <tr>
+      <td><code>repository_dispatch</code></td>
+      <td>The app's pipeline sends an event carrying the deployed URL; this repository runs and reports back via a commit status.</td>
+      <td>The app lives elsewhere (another org, GitLab, Jenkins) or the suite must run on its own schedule too.</td>
+    </tr>
+  </table>
+
+  <p class="sub" style="margin-top:18px;">Making it callable is a small addition to the trigger block:</p>
+<pre>on:
+  workflow_call:
+    inputs:
+      base_url:
+        type: string
+        required: true
+
+jobs:
+  robot-e2e:
+    env:
+      BEE_TICK_BASE_URL: ${{ inputs.base_url }}</pre>
+  <p class="sub" style="margin-top:14px;">And from the application repository, after its deploy job:</p>
+<pre>e2e:
+  needs: deploy-staging
+  uses: &lt;owner&gt;/beetick/.github/workflows/e2e.yml@main
+  with:
+    base_url: https://staging.example.com/en</pre>
+</div></section>
+
+<section id="run"><div class="wrap">
+  <h2>Run it yourself</h2>
+  <p class="sub">No application to deploy, no test data to seed, no credentials.</p>
+  <div class="two">
+    <div class="card">
+      <h3 style="margin:0 0 10px;font-size:15px;">Robot Framework</h3>
+<pre>cd robot
+uv sync --frozen
+uv run rfbrowser init chromium
+uv run robot --outputdir results --xunit xunit.xml tests</pre>
+      <p class="sub" style="margin:12px 0 0;font-size:13px;">Headed: add <code>--variable HEADLESS:false</code></p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 10px;font-size:15px;">Playwright TypeScript</h3>
+<pre>cd playwright
+corepack enable
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm test</pre>
+      <p class="sub" style="margin:12px 0 0;font-size:13px;">Report: <code>pnpm report</code> &middot; Headed: <code>pnpm test:headed</code></p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  Reports on this page were generated on 14 September 2026 against
+  <code>https://btech.com/en</code>. Because the storefront is live, a later run may select a
+  different product — that is intended, and every assertion is derived from the product chosen at runtime.
+</div></footer>
+
+</body>
+</html>

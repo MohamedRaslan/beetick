@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.13.0 on win32)" generated="2026-09-14T08:39:59.152936" rpa="false" schemaversion="5">
+<suite id="s1" name="Btech Cart" source="C:\Atomica\Web\Testing\AUT\beetick\robot\tests\btech_cart.robot">
+<test id="s1-t1" name="Add First Matching iPhone17 Search Result To Cart" line="12">
+<kw name="Open Fresh B.TECH Browser" owner="btech_flow" type="SETUP">
+<kw name="New Browser" owner="Browser">
+<msg time="2026-09-14T08:39:59.726648" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\Atomica\\Web\\Testing\\AUT\\beetick\\robot\\..\\demo\\reports\\robot\\browser\\traces\\temp\\d7f16458-9fc7-4b8d-a4ce-cc44b13a209b"}</msg>
+<msg time="2026-09-14T08:39:59.779849" level="INFO">Starting Browser process C:\Atomica\Web\Testing\AUT\beetick\robot\.venv\Lib\site-packages\Browser\wrapper\index.js using at 127.0.0.1:62489</msg>
+<msg time="2026-09-14T08:40:01.120860" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"C:\\Atomica\\Web\\Testing\\AUT\\beetick\\robot\\..\\demo\\reports\\robot\\browser\\traces\\temp\\d7f16458-9fc7-4b8d-a4ce-cc44b13a209b"}</msg>
+<arg>${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="PASS" start="2026-09-14T08:39:59.722965" elapsed="1.398581"/>
+</kw>
+<kw name="New Context" owner="Browser">
+<msg time="2026-09-14T08:40:01.195638" level="INFO">{
+  "acceptDownloads": true,
+  "baseURL": "https://btech.com/en",
+  "bypassCSP": false,
+  "forcedColors": "none",
+  "ignoreHTTPSErrors": false,
+  "javaScriptEnabled": true,
+  "offline": false,
+  "reducedMotion": "no-preference",
+  "serviceWorkers": "allow",
+  "tracing": true,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}</msg>
+<msg time="2026-09-14T08:40:01.263610" level="INFO">Successfully created context and trace file will be saved to: C:\Atomica\Web\Testing\AUT\beetick\demo\reports\robot\browser\traces\trace_context=13661fb6-e82c-414e-a82e-61edecd19df4.zip</msg>
+<msg time="2026-09-14T08:40:01.263755" level="INFO">{'acceptDownloads': True, 'baseURL': 'https://btech.com/en', 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'tracing': True, 'viewport': {'width': 1280, 'height': 720}, 'trace': {'screenshots': True, 'snapshots': True}}</msg>
+<arg>baseURL=${BEE_TICK_BASE_URL}</arg>
+<arg>tracing=${TRUE}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="PASS" start="2026-09-14T08:40:01.122406" elapsed="0.141684"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<msg time="2026-09-14T08:40:01.415577" level="INFO">Successfully initialized new page object and opened url: about:blank</msg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="PASS" start="2026-09-14T08:40:01.273404" elapsed="0.142439"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:39:59.721920" elapsed="1.698497"/>
+</kw>
+<kw name="Given B.TECH Home Page Is Open" owner="btech_flow">
+<kw name="Start Waiting For Regions Response" owner="regions">
+<kw name="Promise To" owner="Browser">
+<msg time="2026-09-14T08:40:01.446279" level="INFO">${promise} = &lt;Future at 0x224f8eac190 state=running&gt;</msg>
+<var>${promise}</var>
+<arg>Wait For Response</arg>
+<arg>matcher=${REGIONS_MATCHER}</arg>
+<arg>timeout=${NAVIGATION_TIMEOUT}</arg>
+<tag>Wait</tag>
+<doc>Wrap a Browser library keyword and make it a promise.</doc>
+<status status="PASS" start="2026-09-14T08:40:01.434924" elapsed="0.011468"/>
+</kw>
+<return>
+<value>${promise}</value>
+<status status="PASS" start="2026-09-14T08:40:01.451815" elapsed="0.003727"/>
+</return>
+<msg time="2026-09-14T08:40:01.459205" level="INFO">${regions_response} = &lt;Future at 0x224f8eac190 state=running&gt;</msg>
+<var>${regions_response}</var>
+<status status="PASS" start="2026-09-14T08:40:01.430186" elapsed="0.029072"/>
+</kw>
+<kw name="Go To" owner="Browser">
+<msg time="2026-09-14T08:40:06.544503" level="INFO">Successfully opened URL https://btech.com/en</msg>
+<arg>${BEE_TICK_BASE_URL}</arg>
+<arg>timeout=${NAVIGATION_TIMEOUT}</arg>
+<arg>wait_until=domcontentloaded</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<status status="PASS" start="2026-09-14T08:40:01.462784" elapsed="5.081942"/>
+</kw>
+<kw name="Regions Response Should Be Successful" owner="regions">
+<kw name="Wait For" owner="Browser">
+<msg time="2026-09-14T08:40:14.100741" level="INFO">${response} = {'status': 200, 'headers': {'strict-transport-security': 'max-age=15552000; includeSubDomains; preload', 'content-encoding': 'br', 'cf-cache-status': 'DYNAMIC', 'access-control-allow-credentials': 'tr...</msg>
+<var>${response}</var>
+<arg>${promise}</arg>
+<tag>Wait</tag>
+<doc>Waits for promises to finish and returns results from them.</doc>
+<status status="PASS" start="2026-09-14T08:40:06.552608" elapsed="7.548436"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-09-14T08:40:14.139499" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response}[status]</arg>
+<arg>200</arg>
+<arg>Regions request failed: ${response}[url]</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-09-14T08:40:14.109909" elapsed="0.029912"/>
+</kw>
+<arg>${regions_response}</arg>
+<status status="PASS" start="2026-09-14T08:40:06.548378" elapsed="7.599207"/>
+</kw>
+<kw name="Header Search Should Be Ready" owner="header">
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:14.656016" level="INFO">Text: 'Delivering to: Cairo'</msg>
+<arg>${DELIVERY_LOCATION}</arg>
+<arg>contains</arg>
+<arg>${expected_location}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:14.232753" elapsed="0.423570"/>
+</kw>
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:14.797811" level="INFO">Waited for Element with selector data-testid=search-input &gt;&gt; visible=true at state editable</msg>
+<arg>${SEARCH_INPUT}</arg>
+<arg>editable</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:14.662791" elapsed="0.135384"/>
+</kw>
+<arg>${EXPECTED_DELIVERY_LOCATION}</arg>
+<status status="PASS" start="2026-09-14T08:40:14.202032" elapsed="0.601285"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:01.425911" elapsed="13.383747"/>
+</kw>
+<kw name="When User Searches For" owner="btech_flow">
+<kw name="Submit Search" owner="header">
+<kw name="Fill Text" owner="Browser">
+<msg time="2026-09-14T08:40:14.841736" level="INFO">Fills the text 'iphone17' in the given field.</msg>
+<arg>${SEARCH_INPUT}</arg>
+<arg>${term}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:14.830757" elapsed="1.042177"/>
+</kw>
+<kw name="Promise To" owner="Browser">
+<kw name="Get Url" owner="Browser">
+<msg time="2026-09-14T08:40:15.897033" level="INFO">${navigation} = &lt;Future at 0x224f8ccf950 state=running&gt;</msg>
+<var>${navigation}</var>
+<arg>Wait For Condition</arg>
+<arg>Url</arg>
+<arg>matches</arg>
+<arg>/en/s[?].*q=${term}(&amp;|$)</arg>
+<arg>timeout=${NAVIGATION_TIMEOUT}</arg>
+<tag>Wait</tag>
+<doc>Wrap a Browser library keyword and make it a promise.</doc>
+<status status="PASS" start="2026-09-14T08:40:15.877243" elapsed="0.019867"/>
+</kw>
+<kw name="Press Keys" owner="Browser">
+<arg>${SEARCH_INPUT}</arg>
+<arg>Enter</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Types the given key combination into element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:15.902120" elapsed="0.138801"/>
+</kw>
+<kw name="Wait For" owner="Browser">
+<arg>matches</arg>
+<arg>/en/s[?].*q=iphone17(&amp;|$)</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the current URL.</doc>
+<status status="PASS" start="2026-09-14T08:40:15.889214" elapsed="0.929782"/>
+</kw>
+<arg>${navigation}</arg>
+<tag>Wait</tag>
+<doc>Waits for promises to finish and returns results from them.</doc>
+<status status="PASS" start="2026-09-14T08:40:16.046229" elapsed="0.782104"/>
+</kw>
+<arg>${term}</arg>
+<status status="PASS" start="2026-09-14T08:40:14.823691" elapsed="2.010142"/>
+</kw>
+<kw name="Search Results Should Be Visible For" owner="search_results">
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:17.577433" level="INFO">Text: 'IPHONE17'</msg>
+<arg>${RESULTS_HEADING}</arg>
+<arg>matches</arg>
+<arg>(?i)^${term}$</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:16.845162" elapsed="0.733453"/>
+</kw>
+<kw name="Get Element Count" owner="Browser">
+<arg>${PRODUCT_CARD}</arg>
+<arg>&gt;</arg>
+<arg>0</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the count of elements found with ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.593044" elapsed="0.082221"/>
+</kw>
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:17.725613" level="INFO">Waited for Element with selector data-testid=product-card &gt;&gt; nth=0 at state visible</msg>
+<arg>${PRODUCT_CARD} &gt;&gt; nth=0</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.682429" elapsed="0.043437"/>
+</kw>
+<arg>${term}</arg>
+<status status="PASS" start="2026-09-14T08:40:16.839469" elapsed="0.890392"/>
+</kw>
+<arg>${SEARCH_TERM}</arg>
+<status status="PASS" start="2026-09-14T08:40:14.816774" elapsed="2.916612"/>
+</kw>
+<kw name="Then First Matching Search Result Should Have An Image" owner="btech_flow">
+<kw name="First Matching Result Should Have An Image" owner="search_results">
+<kw name="Find First Matching Search Result" owner="search_results">
+<kw name="Search Term Should Be Searchable" owner="search">
+<arg>${term}</arg>
+<doc>Fail if the term has nothing that could match a product title.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.750347" elapsed="0.006033"/>
+</kw>
+<kw name="Get Element Count" owner="Browser">
+<msg time="2026-09-14T08:40:17.787546" level="INFO">${product_count} = 20</msg>
+<var>${product_count}</var>
+<arg>${PRODUCT_CARD}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the count of elements found with ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.759772" elapsed="0.027833"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-09-14T08:40:17.798690" level="INFO">@{inspected_titles} = [ ]</msg>
+<var>@{inspected_titles}</var>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.791075" elapsed="0.007709"/>
+</kw>
+<for flavor="IN RANGE">
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-09-14T08:40:17.825485" level="INFO">${card} = data-testid=product-card &gt;&gt; nth=0</msg>
+<var>${card}</var>
+<arg>${PRODUCT_CARD} &gt;&gt; nth=${index}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.813414" elapsed="0.012192"/>
+</kw>
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:17.980030" level="INFO">Text: 'Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver'</msg>
+<msg time="2026-09-14T08:40:17.981453" level="INFO">${title} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${title}</var>
+<arg>${card} &gt;&gt; ${PRODUCT_CARD_TITLE}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.830994" elapsed="0.150598"/>
+</kw>
+<kw name="Append To List" owner="Collections">
+<arg>${inspected_titles}</arg>
+<arg>${title}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.993897" elapsed="0.016511"/>
+</kw>
+<kw name="Title Matches Search Term" owner="search">
+<msg time="2026-09-14T08:40:18.027587" level="INFO">${matches} = True</msg>
+<var>${matches}</var>
+<arg>${title}</arg>
+<arg>${term}</arg>
+<doc>Return whether the title is relevant to the term.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.016137" elapsed="0.011579"/>
+</kw>
+<if>
+<branch type="IF" condition="${matches}">
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:18.094171" level="INFO">Waited for Element with selector data-testid=product-card &gt;&gt; nth=0 at state visible</msg>
+<arg>${card}</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.041007" elapsed="0.055646"/>
+</kw>
+<return>
+<value>${card}</value>
+<value>${title}</value>
+<status status="PASS" start="2026-09-14T08:40:18.110119" elapsed="0.017699"/>
+</return>
+<status status="PASS" start="2026-09-14T08:40:18.034856" elapsed="0.101076"/>
+</branch>
+<status status="PASS" start="2026-09-14T08:40:18.034763" elapsed="0.108819"/>
+</if>
+<var name="${index}">0</var>
+<status status="PASS" start="2026-09-14T08:40:17.807797" elapsed="0.335969"/>
+</iter>
+<var>${index}</var>
+<value>${product_count}</value>
+<status status="PASS" start="2026-09-14T08:40:17.802782" elapsed="0.351803"/>
+</for>
+<kw name="Catenate" owner="BuiltIn">
+<var>${inspected}</var>
+<arg>SEPARATOR=${SPACE}|${SPACE}</arg>
+<arg>@{inspected_titles}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<status status="NOT RUN" start="2026-09-14T08:40:18.164833" elapsed="0.007388"/>
+</kw>
+<kw name="Fail" owner="BuiltIn">
+<arg>Expected a result matching "${term}" among ${product_count} result(s): ${inspected}</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" start="2026-09-14T08:40:18.184626" elapsed="0.007477"/>
+</kw>
+<msg time="2026-09-14T08:40:18.201143" level="INFO">${card} = data-testid=product-card &gt;&gt; nth=0</msg>
+<msg time="2026-09-14T08:40:18.201289" level="INFO">${title} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${card}</var>
+<var>${title}</var>
+<arg>${term}</arg>
+<doc>Keeps the page's own ordering but skips cards unrelated to the term.</doc>
+<status status="PASS" start="2026-09-14T08:40:17.746180" elapsed="0.455180"/>
+</kw>
+<kw name="Image Should Be Present" owner="image">
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:18.293427" level="INFO">Waited for Element with selector data-testid=product-card &gt;&gt; nth=0 &gt;&gt; css=img[alt] &gt;&gt; nth=0 at state visible</msg>
+<arg>${image_locator}</arg>
+<arg>visible</arg>
+<arg>${IMAGE_TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.219705" elapsed="0.074357"/>
+</kw>
+<kw name="Get Attribute" owner="Browser">
+<msg time="2026-09-14T08:40:18.408945" level="INFO">Attribute is: 'Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver'</msg>
+<arg>${image_locator}</arg>
+<arg>alt</arg>
+<arg>==</arg>
+<arg>${expected_alt}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the HTML ``attribute`` of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.302231" elapsed="0.107242"/>
+</kw>
+<kw name="Get Attribute" owner="Browser">
+<msg time="2026-09-14T08:40:18.495571" level="INFO">Attribute is: 'https://media.btech.com/catalogs/a/4/a/e/a4aefb89b27878b03d515ced905ba8ece0756152_iPhone_17_Pro_Max_Silver_PDP_Image_Position_1__en_ME.jpg'</msg>
+<arg>${image_locator}</arg>
+<arg>src</arg>
+<arg>validate</arg>
+<arg>bool(value)</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the HTML ``attribute`` of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.416675" elapsed="0.079112"/>
+</kw>
+<arg>${card} &gt;&gt; ${PRODUCT_CARD_IMAGE}</arg>
+<arg>${title}</arg>
+<status status="PASS" start="2026-09-14T08:40:18.209793" elapsed="0.289637"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2026-09-14T08:40:18.506874" level="INFO">${SELECTED_PRODUCT_CARD} = data-testid=product-card &gt;&gt; nth=0</msg>
+<arg>${SELECTED_PRODUCT_CARD}</arg>
+<arg>${card}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.502497" elapsed="0.004474"/>
+</kw>
+<return>
+<value>${title}</value>
+<status status="PASS" start="2026-09-14T08:40:18.510537" elapsed="0.003368"/>
+</return>
+<msg time="2026-09-14T08:40:18.517341" level="INFO">${product_name} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${product_name}</var>
+<arg>${term}</arg>
+<status status="PASS" start="2026-09-14T08:40:17.741222" elapsed="0.776169"/>
+</kw>
+<return>
+<value>${product_name}</value>
+<status status="PASS" start="2026-09-14T08:40:18.520742" elapsed="0.005691"/>
+</return>
+<msg time="2026-09-14T08:40:18.532074" level="INFO">${product_name} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${product_name}</var>
+<arg>${SEARCH_TERM}</arg>
+<status status="PASS" start="2026-09-14T08:40:17.737358" elapsed="0.794785"/>
+</kw>
+<kw name="When User Opens The Selected Search Result" owner="btech_flow">
+<kw name="Open Selected Search Result" owner="search_results">
+<kw name="Promise To" owner="Browser">
+<kw name="Get Url" owner="Browser">
+<msg time="2026-09-14T08:40:18.560932" level="INFO">${navigation} = &lt;Future at 0x224f91f45f0 state=running&gt;</msg>
+<var>${navigation}</var>
+<arg>Wait For Condition</arg>
+<arg>Url</arg>
+<arg>matches</arg>
+<arg>/en/p/</arg>
+<arg>timeout=${NAVIGATION_TIMEOUT}</arg>
+<tag>Wait</tag>
+<doc>Wrap a Browser library keyword and make it a promise.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.543914" elapsed="0.017100"/>
+</kw>
+<kw name="Click" owner="Browser">
+<msg time="2026-09-14T08:40:18.572220" level="INFO">Clicks the element 'data-testid=product-card &gt;&gt; nth=0 &gt;&gt; data-testid=product-card-link'.</msg>
+<arg>${SELECTED_PRODUCT_CARD} &gt;&gt; ${PRODUCT_CARD_LINK}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.564877" elapsed="0.188712"/>
+</kw>
+<kw name="Wait For" owner="Browser">
+<arg>matches</arg>
+<arg>/en/p/</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the current URL.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.553180" elapsed="0.705173"/>
+</kw>
+<arg>${navigation}</arg>
+<tag>Wait</tag>
+<doc>Waits for promises to finish and returns results from them.</doc>
+<status status="PASS" start="2026-09-14T08:40:18.760900" elapsed="0.502774"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:18.540297" elapsed="0.726348"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:18.536855" elapsed="0.732778"/>
+</kw>
+<kw name="Then Opened Product Should Match And Have A Loaded Image" owner="product">
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:20.191269" level="INFO">Text: 'Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver'</msg>
+<arg>${PRODUCT_HEADING}</arg>
+<arg>==</arg>
+<arg>${expected_name}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:19.277069" elapsed="0.914457"/>
+</kw>
+<kw name="Product Image" owner="product">
+<kw name="Opened Product Name" owner="product">
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:20.387329" level="INFO">Text: 'Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver'</msg>
+<msg time="2026-09-14T08:40:20.387906" level="INFO">${product_name} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${product_name}</var>
+<arg>${PRODUCT_HEADING}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.204521" elapsed="0.184599"/>
+</kw>
+<return>
+<value>${product_name}</value>
+<status status="PASS" start="2026-09-14T08:40:20.396725" elapsed="0.005123"/>
+</return>
+<msg time="2026-09-14T08:40:20.409677" level="INFO">${product_name} = Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver</msg>
+<var>${product_name}</var>
+<status status="PASS" start="2026-09-14T08:40:20.200398" elapsed="0.209401"/>
+</kw>
+<return>
+<value>role=img[name="${product_name}"] &gt;&gt; nth=${index}</value>
+<status status="PASS" start="2026-09-14T08:40:20.414155" elapsed="0.006526"/>
+</return>
+<msg time="2026-09-14T08:40:20.426690" level="INFO">${image} = role=img[name="Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver"] &gt;&gt; nth=0</msg>
+<var>${image}</var>
+<arg>${index}</arg>
+<doc>Gallery images are labelled with the product name; index 0 is the main one.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.196291" elapsed="0.230459"/>
+</kw>
+<kw name="Image Should Be Fully Loaded" owner="image">
+<kw name="Scroll To Element" owner="Browser">
+<arg>${image_locator}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>This method waits for actionability checks, then tries to scroll element into view,
+unless it is completely visible.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.438394" elapsed="0.078929"/>
+</kw>
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:20.563321" level="INFO">Waited for Element with selector role=img[name="Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver"] &gt;&gt; nth=0 at state visible</msg>
+<arg>${image_locator}</arg>
+<arg>visible</arg>
+<arg>${IMAGE_TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.526274" elapsed="0.037406"/>
+</kw>
+<kw name="Wait For Function" owner="Browser">
+<msg time="2026-09-14T08:40:20.629384" level="INFO">Wait For Function completed successfully.</msg>
+<arg>${IMAGE_IS_LOADED}</arg>
+<arg>selector=${image_locator}</arg>
+<arg>timeout=${IMAGE_TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Polls JavaScript expression or function in browser until it returns a (JavaScript) truthy value.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.568876" elapsed="0.060758"/>
+</kw>
+<kw name="Evaluate JavaScript" owner="Browser">
+<msg time="2026-09-14T08:40:20.660643" level="INFO">JavaScript executed successfully.</msg>
+<msg time="2026-09-14T08:40:20.661041" level="INFO">${state} = {'src': 'https://media.btech.com/catalogs/a/4/a/e/a4aefb89b27878b03d515ced905ba8ece0756152_iPhone_17_Pro_Max_Silver_PDP_Image_Position_1__en_ME.jpg', 'alt': 'Apple iPhone 17 Pro Max , 256 GB , 12 GB ,...</msg>
+<var>${state}</var>
+<arg>${image_locator}</arg>
+<arg>${IMAGE_STATE}</arg>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Executes given javascript on the selected element(s) or on page.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.632825" elapsed="0.028296"/>
+</kw>
+<kw name="Image State Should Be Loaded" owner="images">
+<arg>${state}</arg>
+<arg>${expected_alt}</arg>
+<arg>${PRODUCT_MEDIA_URL}</arg>
+<arg>${MIN_IMAGE_WIDTH}</arg>
+<doc>Fail unless the browser decoded a real image belonging to ``expected_alt``.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.664632" elapsed="0.005391"/>
+</kw>
+<arg>${image}</arg>
+<arg>${expected_name}</arg>
+<doc>Proves the image resource loaded, not that it looks correct.
+See the image assertion section of the root README.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.431812" elapsed="0.242476"/>
+</kw>
+<arg>${product_name}</arg>
+<status status="PASS" start="2026-09-14T08:40:19.273468" elapsed="1.403476"/>
+</kw>
+<kw name="When User Adds The Opened Product To Cart" owner="btech_flow">
+<kw name="Product Add To Cart Should Be Available" owner="product">
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:20.719860" level="INFO">Waited for Element with selector role=button[name="Add to cart"] at state visible</msg>
+<arg>${ADD_TO_CART_BUTTON}</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.688785" elapsed="0.031378"/>
+</kw>
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:20.757679" level="INFO">Waited for Element with selector role=button[name="Add to cart"] at state enabled</msg>
+<arg>${ADD_TO_CART_BUTTON}</arg>
+<arg>enabled</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.723578" elapsed="0.034564"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:20.684468" elapsed="0.077800"/>
+</kw>
+<kw name="Get Offering Guid From Current Url" owner="cart">
+<kw name="Get Url" owner="Browser">
+<msg time="2026-09-14T08:40:20.777177" level="INFO">${url} = https://btech.com/en/p/apple-iphone-17-pro-max-256-12gb-ram-5g-silver?offering_id=7379dffa-d90f-48eb-a287-9da6e9d358bb</msg>
+<var>${url}</var>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the current URL.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.769239" elapsed="0.007992"/>
+</kw>
+<kw name="Get Offering Guid From Url" owner="cart">
+<msg time="2026-09-14T08:40:20.785735" level="INFO">${offering_guid} = 7379dffa-d90f-48eb-a287-9da6e9d358bb</msg>
+<var>${offering_guid}</var>
+<arg>${url}</arg>
+<doc>Return the offering id identifying the variant on a product page URL.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.780093" elapsed="0.005698"/>
+</kw>
+<return>
+<value>${offering_guid}</value>
+<status status="PASS" start="2026-09-14T08:40:20.788735" elapsed="0.002964"/>
+</return>
+<msg time="2026-09-14T08:40:20.796418" level="INFO">${offering_guid} = 7379dffa-d90f-48eb-a287-9da6e9d358bb</msg>
+<var>${offering_guid}</var>
+<status status="PASS" start="2026-09-14T08:40:20.765977" elapsed="0.030511"/>
+</kw>
+<kw name="Start Waiting For Add To Cart Response" owner="cart">
+<kw name="Promise To" owner="Browser">
+<msg time="2026-09-14T08:40:20.825017" level="INFO">${promise} = &lt;Future at 0x224f8d33570 state=running&gt;</msg>
+<var>${promise}</var>
+<arg>Wait For Response</arg>
+<arg>matcher=${ADD_TO_CART_MATCHER}</arg>
+<arg>timeout=${NETWORK_TIMEOUT}</arg>
+<tag>Wait</tag>
+<doc>Wrap a Browser library keyword and make it a promise.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.805660" elapsed="0.019459"/>
+</kw>
+<return>
+<value>${promise}</value>
+<status status="PASS" start="2026-09-14T08:40:20.830077" elapsed="0.003641"/>
+</return>
+<msg time="2026-09-14T08:40:20.838097" level="INFO">${add_to_cart_response} = &lt;Future at 0x224f8d33570 state=running&gt;</msg>
+<var>${add_to_cart_response}</var>
+<status status="PASS" start="2026-09-14T08:40:20.801116" elapsed="0.037059"/>
+</kw>
+<kw name="Add Opened Product To Cart" owner="product">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-14T08:40:20.852392" level="INFO">Clicks the element 'role=button[name="Add to cart"]'.</msg>
+<arg>${ADD_TO_CART_BUTTON}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:20.846672" elapsed="0.190323"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:20.842301" elapsed="0.201069"/>
+</kw>
+<kw name="Add To Cart Response Should Be Successful" owner="cart">
+<kw name="Wait For" owner="Browser">
+<msg time="2026-09-14T08:40:21.315004" level="INFO">${response} = {'status': 200, 'headers': {'strict-transport-security': 'max-age=15552000; includeSubDomains; preload', 'content-encoding': 'br', 'cf-cache-status': 'DYNAMIC', 'access-control-allow-credentials': 'tr...</msg>
+<var>${response}</var>
+<arg>${promise}</arg>
+<tag>Wait</tag>
+<doc>Waits for promises to finish and returns results from them.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.059078" elapsed="0.256003"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-09-14T08:40:21.329591" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response}[status]</arg>
+<arg>200</arg>
+<arg>Add-to-cart request failed: ${response}[url]</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.321386" elapsed="0.008444"/>
+</kw>
+<kw name="Add To Cart Response Should Be Valid" owner="cart">
+<arg>${response}</arg>
+<arg>${offering_guid}</arg>
+<arg>${quantity}</arg>
+<doc>Assert the mutation was made for ``offering_guid`` and succeeded.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.335759" elapsed="0.008563"/>
+</kw>
+<arg>${add_to_cart_response}</arg>
+<arg>${offering_guid}</arg>
+<status status="PASS" start="2026-09-14T08:40:21.051010" elapsed="0.299229"/>
+</kw>
+<kw name="Opened Product Should Show Added Quantity" owner="product">
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:21.442141" level="INFO">Waited for Element with selector role=button[name="Decrease quantity"] at state visible</msg>
+<arg>${DECREASE_QUANTITY}</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.362376" elapsed="0.080201"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:21.355833" elapsed="0.092485"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:20.680257" elapsed="0.774344"/>
+</kw>
+<kw name="And User Opens The Cart" owner="btech_flow">
+<kw name="Open Header Cart" owner="header">
+<kw name="Click" owner="Browser">
+<msg time="2026-09-14T08:40:21.488434" level="INFO">Clicks the element 'role=button[name="Cart"]'.</msg>
+<arg>${HEADER_CART_BUTTON}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.479568" elapsed="0.193271"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:21.471534" elapsed="0.206166"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:21.463021" elapsed="0.219350"/>
+</kw>
+<kw name="Then Cart Should Contain" owner="btech_flow">
+<kw name="Cart Drawer Should Contain Product" owner="cart_drawer">
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:21.734821" level="INFO">Waited for Element with selector data-testid=drawer-content at state visible</msg>
+<arg>${CART_DRAWER}</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.701266" elapsed="0.034078"/>
+</kw>
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:21.806274" level="INFO">Text: 'Cart'</msg>
+<arg>${CART_HEADING}</arg>
+<arg>==</arg>
+<arg>Cart</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.741170" elapsed="0.065798"/>
+</kw>
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:21.888714" level="INFO">Text: '1 items'</msg>
+<arg>${CART_ITEM_COUNT}</arg>
+<arg>matches</arg>
+<arg>^${quantity} item</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.812970" elapsed="0.076019"/>
+</kw>
+<kw name="Wait For Elements State" owner="Browser">
+<msg time="2026-09-14T08:40:22.146950" level="INFO">Waited for Element with selector data-testid=drawer-content &gt;&gt; role=link[name="Apple iPhone 17 Pro Max , 256 GB , 12 GB , 5G , Dual-SIM - Silver"] at state visible</msg>
+<arg>${CART_DRAWER} &gt;&gt; role=link[name="${expected_name}"]</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="PASS" start="2026-09-14T08:40:21.895634" elapsed="0.252342"/>
+</kw>
+<kw name="Get Text" owner="Browser">
+<msg time="2026-09-14T08:40:22.253754" level="INFO">Text: '1'</msg>
+<arg>${CART_DRAWER} &gt;&gt; css=article:has-text("${expected_name}") &gt;&gt; ${CART_ITEM_QUANTITY}</arg>
+<arg>==</arg>
+<arg>${quantity}</arg>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns text attribute of the element found by ``selector``.</doc>
+<status status="PASS" start="2026-09-14T08:40:22.161254" elapsed="0.092810"/>
+</kw>
+<arg>${expected_name}</arg>
+<arg>${quantity}</arg>
+<status status="PASS" start="2026-09-14T08:40:21.694942" elapsed="0.566892"/>
+</kw>
+<arg>${product_name}</arg>
+<status status="PASS" start="2026-09-14T08:40:21.688469" elapsed="0.581430"/>
+</kw>
+<kw name="Close B.TECH Browser" owner="btech_flow" type="TEARDOWN">
+<kw name="Run Keyword If Test Failed" owner="BuiltIn">
+<arg>Take Screenshot</arg>
+<arg>filename=failure-{index}</arg>
+<arg>fullPage=${TRUE}</arg>
+<doc>Runs the given keyword with the given arguments, if the test failed.</doc>
+<status status="PASS" start="2026-09-14T08:40:22.285467" elapsed="0.008950"/>
+</kw>
+<kw name="Close Browser" owner="Browser">
+<msg time="2026-09-14T08:40:24.843267" level="INFO">Closed all browsers</msg>
+<arg>ALL</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-09-14T08:40:22.304081" elapsed="2.539407"/>
+</kw>
+<status status="PASS" start="2026-09-14T08:40:22.278023" elapsed="2.568105"/>
+</kw>
+<doc>Verifies the required B.TECH search-to-cart journey.</doc>
+<tag>cart</tag>
+<tag>e2e</tag>
+<tag>smoke</tag>
+<tag>ui</tag>
+<timeout value="1 minute"/>
+<status status="PASS" start="2026-09-14T08:39:59.720818" elapsed="25.127722"/>
+</test>
+<doc>B.TECH search-to-cart end-to-end coverage.</doc>
+<status status="PASS" start="2026-09-14T08:39:59.156573" elapsed="25.702410"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">cart</stat>
+<stat pass="1" fail="0" skip="0">e2e</stat>
+<stat pass="1" fail="0" skip="0">smoke</stat>
+<stat pass="1" fail="0" skip="0">ui</stat>
+</tag>
+<suite>
+<stat name="Btech Cart" id="s1" pass="1" fail="0" skip="0">Btech Cart</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

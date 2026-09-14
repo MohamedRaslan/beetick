@@ -1,0 +1,95 @@
+name: E2E
+
+# Template workflow. Both jobs drive the live public storefront, so there is no
+# environment to provision. Pin the action versions to whatever your org allows
+# before enabling this on a protected branch.
+
+on:
+  push:
+    branches: [main]
+#  pull_request:
+  workflow_dispatch:
+
+# A push that supersedes an in-flight run cancels it; the live site is the
+# shared resource here, so overlapping runs add load without adding signal.
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  robot-e2e:
+    name: Robot Framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: robot
+    steps:
+      - uses: actions/checkout@v4
+
+      # Browser Library runs Playwright through Node even though the tests are Robot.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Python dependencies
+        run: uv sync --frozen
+
+      - name: Install Chromium
+        run: uv run rfbrowser init chromium --with-deps
+
+      - name: Run suite
+        run: uv run robot --outputdir results --xunit xunit.xml tests
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results
+          path: robot/results/
+          retention-days: 7
+
+  playwright-e2e:
+    name: Playwright TypeScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: playwright
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: playwright/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Run suite
+        run: pnpm test
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright/playwright-report/
+            playwright/test-results/
+          retention-days: 7
