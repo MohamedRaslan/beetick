@@ -3,7 +3,9 @@ Documentation      B.TECH search-to-cart end-to-end coverage.
 Resource           ../resources/flows/btech_flow.resource
 Test Setup         Open Fresh B.TECH Browser
 Test Teardown      Close B.TECH Browser
-Test Timeout       60s
+# No Test Timeout: on POSIX, Robot implements it with SIGALRM, which cannot be
+# armed from the worker threads Browser Library runs Promise To keywords in.
+# Every wait is bounded by its own ceiling in config.py instead.
 
 *** Variables ***
 ${SEARCH_TERM}    iphone17

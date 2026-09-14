@@ -132,7 +132,8 @@ Search and product pages are rendered through Next.js React Server Components, s
 | Startup regions response | `30s` | Arrives late in page load, so it uses the navigation ceiling rather than the network one. |
 | Cart mutation response | `15s` | Follows a click, so it is expected promptly. |
 | Image condition | `10s` | Gives a lazy-loaded image time to load after scrolling. |
-| Whole test | `60s` | Caps the live journey without hiding slow failures. |
+
+There is intentionally no `Test Timeout`. Robot implements it with `SIGALRM` on POSIX, and signals can only be armed from the main thread, while Browser Library executes `Promise To` keywords in worker threads — the combination raises `ValueError: signal only works in main thread of the main interpreter` on Linux and macOS. It passes on Windows only because Robot uses a thread-based timer there. The per-operation ceilings above bound every wait, and CI caps the job at ten minutes.
 
 These values are upper bounds: execution continues as soon as the condition is met. Do not use `Sleep` or another fixed delay to make the scenario pass.
 

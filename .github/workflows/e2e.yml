@@ -66,11 +66,12 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      # No dependency cache: the install takes a couple of seconds, and
+      # setup-node's pnpm cache fails its post step when the Corepack-managed
+      # store has not been created at the path it probes.
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: playwright/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
