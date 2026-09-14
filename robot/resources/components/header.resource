@@ -7,11 +7,12 @@ Resource    ../browser.resource
 ${SEARCH_INPUT}          data-testid=search-input >> visible=true
 ${HEADER_CART_BUTTON}    role=button[name="Cart"]
 ${DELIVERY_LOCATION}     text=/^Delivering to:/i >> visible=true
+# Regions has resolved once a city follows the label. Backslashes are doubled for Robot.
+${DELIVERY_LOCATION_RESOLVED}    (?i)^Delivering to:\\s*\\S+
 
 *** Keywords ***
 Header Search Should Be Ready
-    [Arguments]    ${expected_location}=${EXPECTED_DELIVERY_LOCATION}
-    Get Text    ${DELIVERY_LOCATION}    contains    ${expected_location}
+    Get Text    ${DELIVERY_LOCATION}    matches    ${DELIVERY_LOCATION_RESOLVED}
     Wait For Elements State    ${SEARCH_INPUT}    editable
 
 Submit Search

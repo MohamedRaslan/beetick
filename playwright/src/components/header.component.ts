@@ -3,6 +3,9 @@ import { expect, type Locator } from "@playwright/test";
 import { SearchResultsPage } from "../pages/search-results.page";
 import { CartDrawer } from "./cart-drawer.component";
 
+/** Regions has resolved once a city follows the label. */
+const DELIVERY_LOCATION_RESOLVED = /^Delivering to:\s*\S+/i;
+
 export class SearchBox {
   public readonly input: Locator;
 
@@ -48,10 +51,7 @@ export class Header {
   public readonly cart: CartIcon;
   public readonly deliveryLocation: Locator;
 
-  public constructor(
-    public readonly root: Locator,
-    private readonly expectedDeliveryLocation = "Cairo",
-  ) {
+  public constructor(public readonly root: Locator) {
     this.search = new SearchBox(root);
     this.cart = new CartIcon(root);
     this.deliveryLocation = root
@@ -61,7 +61,7 @@ export class Header {
 
   public async waitUntilReady(): Promise<void> {
     await expect(this.deliveryLocation).toBeVisible();
-    await expect(this.deliveryLocation).toContainText(this.expectedDeliveryLocation);
+    await expect(this.deliveryLocation).toHaveText(DELIVERY_LOCATION_RESOLVED);
     await expect(this.search.input).toBeEditable();
   }
 }

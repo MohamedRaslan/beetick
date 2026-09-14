@@ -15,9 +15,8 @@ export class BtechApp {
   public constructor(
     private readonly page: Page,
     baseURL: string,
-    expectedDeliveryLocation = "Cairo",
   ) {
-    this.header = new Header(page.locator("header"), expectedDeliveryLocation);
+    this.header = new Header(page.locator("header"));
     this.home = new HomePage(page, baseURL);
   }
 

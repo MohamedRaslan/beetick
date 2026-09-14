@@ -17,7 +17,7 @@ Robot has two kinds of keywords in this project:
 
 Underneath them, `resources/browser.resource` is the one technical import — Browser Library, `Collections`, and the Python helper modules in `libraries/`. Every resource that calls Browser keywords imports it.
 
-Settings live in exactly one file, `config.py`: the storefront URL, browser, headless mode, the four timeout ceilings, and the expected delivery location. Only the URL is environment configuration, read from `.env`. The rest are runner policy — defaults in the file, overridden per run by `--variable`, which Robot gives priority over any variable file:
+Settings live in exactly one file, `config.py`: the storefront URL, browser, headless mode, video recording, and the four timeout ceilings. Only the URL is environment configuration, read from `.env`. The rest are runner policy — defaults in the file, overridden per run by `--variable`, which Robot gives priority over any variable file:
 
 ```powershell
 uv run robot --variable HEADLESS:false --variable BROWSER:firefox tests
@@ -118,13 +118,12 @@ Everything else in `config.py` is runner policy rather than environment configur
 | `NAVIGATION_TIMEOUT` | `30s` | Ceiling for navigation and the startup regions response |
 | `NETWORK_TIMEOUT` | `15s` | Ceiling for the add-to-cart response |
 | `IMAGE_TIMEOUT` | `10s` | Ceiling for a lazy image to finish loading |
-| `EXPECTED_DELIVERY_LOCATION` | `Cairo` | City the header should resolve to |
 
 The required `iphone17` value is test data declared in `tests/btech_cart.robot`, not configuration of either kind.
 
 ## Wait policy
 
-Browser Library's automatic waiting handles normal actions. Explicit waits are reserved for observable conditions such as the startup regions response, the visible `Delivering to:` header state, an editable search input, the URL changing, a matching search-result title, an image reaching `complete` with a positive `naturalWidth`, the add-to-cart response, and the cart drawer containing the selected product.
+Browser Library's automatic waiting handles normal actions. Explicit waits are reserved for observable conditions such as the startup regions response, the `Delivering to:` header resolving to a city, an editable search input, the URL changing, a matching search-result title, an image reaching `complete` with a positive `naturalWidth`, the add-to-cart response, and the cart drawer containing the selected product.
 
 Search and product pages are rendered through Next.js React Server Components, so the Robot implementation follows the Playwright approach and does not assert a separate search/product backend API. Search results are filtered by normalized title text, so `iphone17` can match a title rendered as `iPhone 17`; the test selects the first matching candidate in DOM order. Add-to-cart is the one business mutation observed at the network level.
 

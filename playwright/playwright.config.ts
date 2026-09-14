@@ -40,7 +40,6 @@ export default defineConfig({
     screenshot: isDemoReport ? "on" : "only-on-failure",
     trace: isDemoReport ? "on" : "retain-on-failure",
     video: isDemoReport ? "on" : "off",
-    viewport: { width: 1440, height: 900 },
   },
   projects: [
     {

@@ -1,8 +1,7 @@
 name: E2E
 
-# Template workflow. Both jobs drive the live public storefront, so there is no
-# environment to provision. Pin the action versions to whatever your org allows
-# before enabling this on a protected branch.
+# Both jobs drive the live public storefront, so there is no environment to
+# provision.
 
 on:
   push:

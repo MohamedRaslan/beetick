@@ -8,6 +8,7 @@ export class HomePage {
   ) {}
 
   public async open(): Promise<void> {
-    await this.page.goto(this.baseURL);
+    // Third-party resources delay the load event; readiness is asserted separately.
+    await this.page.goto(this.baseURL, { waitUntil: "domcontentloaded" });
   }
 }

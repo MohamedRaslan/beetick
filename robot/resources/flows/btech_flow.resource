@@ -26,7 +26,7 @@ B.TECH Home Page Is Open
     Go To    ${BEE_TICK_BASE_URL}    timeout=${NAVIGATION_TIMEOUT}    wait_until=domcontentloaded
     # The header renders the city only after regions resolves, so this order is load-bearing.
     Regions Response Should Be Successful    ${regions_response}
-    Header Search Should Be Ready    ${EXPECTED_DELIVERY_LOCATION}
+    Header Search Should Be Ready
 
 User Searches For
     [Arguments]    ${term}

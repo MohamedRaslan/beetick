@@ -37,8 +37,8 @@ export async function expectProductImagePresent(
 
 /**
  * Asserts the browser fetched and decoded the product's image. Proves the
- * resource loaded, not that it looks correct — see the image assertion section
- * of the root README.
+ * resource loaded, not that it looks correct: a visual check needs a stable
+ * baseline, which a journey that picks its product at runtime does not have.
  */
 export async function expectLoadedImage(
   image: Locator,

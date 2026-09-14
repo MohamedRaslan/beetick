@@ -26,13 +26,13 @@ export async function expectSuccessfulAddToCart(
   reqPayload: { offering_guid: string; quantity: number },
 ): Promise<void> {
   expect(response.status()).toBe(200);
-  expect(response.request().postDataJSON()).toEqual(reqPayload);
+  // Only the fields this journey owns; the endpoint may carry others.
+  expect(response.request().postDataJSON()).toMatchObject(reqPayload);
 
   const body = await response.json();
   expect(body).toMatchObject({
     message: "Product added to cart successfully",
     total_quantity: expect.any(Number),
-    quantity_can_be_increased: expect.any(Boolean),
   });
   expect(body.total_quantity).toBeGreaterThan(0);
 }

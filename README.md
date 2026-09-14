@@ -51,17 +51,6 @@ Report: `pnpm report`
 
 Both default to headless Chromium. For a visible browser use `--variable HEADLESS:false` or `pnpm test:headed`. Each implementation's README documents a `pip` / `npm` alternative.
 
-## GitHub Pages
-
-The workflow publishes the demo on every push to `main`, and can also be run manually from the Actions tab. In GitHub, set **Settings > Pages > Build and deployment > Source** to **GitHub Actions** once, then push normally.
-
-Suggested GitHub About:
-
-```text
-Description: Dual-framework E2E automation showcase with Robot Framework, Playwright TypeScript, CI evidence, videos, traces, and a live dashboard.
-Website: https://mohamedraslan.github.io/beetick/
-```
-
 ## Repository map
 
 | Path | What it is |

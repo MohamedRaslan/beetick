@@ -18,8 +18,9 @@ Image Should Be Present
     Get Attribute    ${image_locator}    src    validate    bool(value)
 
 Image Should Be Fully Loaded
-    [Documentation]    Proves the image resource loaded, not that it looks correct.
-    ...                See the image assertion section of the root README.
+    [Documentation]    Proves the browser fetched and decoded the image, not that it looks
+    ...                correct. A visual check needs a stable baseline, which a journey that
+    ...                picks its product at runtime does not have.
     [Arguments]    ${image_locator}    ${expected_alt}
     Scroll To Element    ${image_locator}
     Wait For Elements State    ${image_locator}    visible    ${IMAGE_TIMEOUT}
