@@ -6,6 +6,9 @@ __pycache__/
 
 # Robot Framework output
 results/
+demo/reports/
+demo/preview.png
+demo/runs.json
 
 
 # Playwright and Node output

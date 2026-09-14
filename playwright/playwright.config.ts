@@ -5,6 +5,7 @@ dotenv.config({ quiet: true });
 
 const baseURL = process.env.BEE_TICK_BASE_URL ?? "https://btech.com/en";
 const parsedBaseURL = new URL(baseURL);
+const isDemoReport = ["true", "1"].includes((process.env.BEE_TICK_DEMO_REPORT ?? "").toLowerCase());
 
 if (!["http:", "https:"].includes(parsedBaseURL.protocol)) {
   throw new Error("BEE_TICK_BASE_URL must be an absolute HTTP(S) URL");
@@ -21,7 +22,13 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
   workers: 1,
-  reporter: process.env.CI
+  reporter: isDemoReport
+    ? [
+        ["list"],
+        ["json", { outputFile: "test-results/demo-results.json" }],
+        ["html", { open: "never", outputFolder: "playwright-report" }],
+      ]
+    : process.env.CI
     ? [
         ["github"],
         ["junit", { outputFile: "test-results/junit.xml" }],
@@ -31,8 +38,9 @@ export default defineConfig({
   use: {
     baseURL: parsedBaseURL.toString(),
     headless: true,
-    screenshot: "only-on-failure",
-    trace: "retain-on-failure",
+    screenshot: isDemoReport ? "on" : "only-on-failure",
+    trace: isDemoReport ? "on" : "retain-on-failure",
+    video: isDemoReport ? "on" : "off",
     viewport: { width: 1440, height: 900 },
   },
   projects: [

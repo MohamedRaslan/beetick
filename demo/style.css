@@ -27,6 +27,19 @@
     --pw: #e8935c;
   }
 }
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --ink: #e8eaee;
+  --muted: #a0a7b4;
+  --line: #272b34;
+  --accent: #7f9cff;
+  --accent-soft: #1b2237;
+  --pass: #4ecb8d;
+  --pass-soft: #12291f;
+  --robot: #7f9cff;
+  --pw: #e8935c;
+}
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -64,9 +77,16 @@ h1 { font-size: clamp(28px, 4.4vw, 42px); line-height: 1.15; margin: 10px 0 12px
   background: var(--pass-soft); color: var(--pass); border-radius: 999px;
   padding: 3px 10px; font-size: 12px; font-weight: 700; letter-spacing: .04em;
 }
+.pill.fail { background: #fdecec; color: #b3261e; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pill.fail { background: #2b1517; color: #ff9a93; }
+}
 .metrics { display: flex; gap: 20px; margin: 14px 0 16px; }
 .metric .n { font-size: 21px; font-weight: 680; letter-spacing: -.01em; }
 .metric .k { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.stat .n { font-size: 24px; font-weight: 700; letter-spacing: -.01em; }
+.stat .k { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn {
   display: inline-block; text-decoration: none; font-size: 13px; font-weight: 600;
@@ -90,6 +110,7 @@ h3 { font-size: 16px; }
 .step p { margin: 0; font-size: 14px; }
 
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.refresh { margin-bottom: 16px; }
 .impl h3 { margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .impl .role { font-size: 12px; color: var(--muted); margin: 0 0 14px; }
@@ -119,6 +140,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.pill.mini { border-radius: 6px; padding: 2px 7px; font-size: 11px; }
 
 footer { padding-block: 30px 50px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
 .viewing {

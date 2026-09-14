@@ -27,6 +27,9 @@ if _parsed_base_url.scheme not in {"http", "https"} or not _parsed_base_url.netl
 
 BROWSER = "chromium"
 HEADLESS = True
+RECORD_VIDEO = False
+VIDEO_WIDTH = 1280
+VIDEO_HEIGHT = 720
 
 # Ceilings, not delays: every wait ends as soon as its condition is met.
 ACTION_TIMEOUT = "10s"

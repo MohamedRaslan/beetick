@@ -93,6 +93,14 @@ Locally, Playwright uses the `list` reporter plus the HTML report. In CI, it swi
 
 The spec uses `test.describe`, named setup/teardown hooks, and `test.step` blocks so the HTML report and trace viewer show the journey in business-readable chunks.
 
+The GitHub Pages demo uses an opt-in showcase run so normal local execution does not record video for every pass:
+
+```powershell
+$env:BEE_TICK_DEMO_REPORT = "true"
+pnpm exec playwright test
+Remove-Item Env:\BEE_TICK_DEMO_REPORT
+```
+
 Good future options if the suite grows:
 
 - Allure: useful for richer dashboards, history, severity/epic metadata, and stakeholder-friendly reporting, but it adds extra dependencies and usually Java/report-generation setup.

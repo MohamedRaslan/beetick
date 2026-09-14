@@ -111,6 +111,9 @@ Everything else in `config.py` is runner policy rather than environment configur
 | --- | --- | --- |
 | `BROWSER` | `chromium` | Browser Library engine |
 | `HEADLESS` | `${TRUE}` | Headless mode |
+| `RECORD_VIDEO` | `${FALSE}` | Record a Browser Library video for showcase/demo runs |
+| `VIDEO_WIDTH` | `1280` | Recorded video width |
+| `VIDEO_HEIGHT` | `720` | Recorded video height |
 | `ACTION_TIMEOUT` | `10s` | Ceiling for ordinary actions and assertions |
 | `NAVIGATION_TIMEOUT` | `30s` | Ceiling for navigation and the startup regions response |
 | `NETWORK_TIMEOUT` | `15s` | Ceiling for the add-to-cart response |
@@ -138,3 +141,9 @@ There is intentionally no `Test Timeout`. Robot implements it with `SIGALRM` on 
 These values are upper bounds: execution continues as soon as the condition is met. Do not use `Sleep` or another fixed delay to make the scenario pass.
 
 Generated Robot reports, xUnit output, traces, and screenshots belong under `results/` and are ignored by Git.
+
+The GitHub Pages demo uses an opt-in showcase run that records video as well as the normal Browser Library trace:
+
+```powershell
+uv run robot --variable RECORD_VIDEO:true --outputdir ..\demo\reports\robot --xunit xunit.xml tests
+```

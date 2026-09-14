@@ -12,15 +12,20 @@ The B.TECH search-to-cart journey, implemented twice against the live storefront
 
 Nothing is mocked. There is no application to deploy, no test data to seed, and no credentials.
 
-## Start here — [`demo/index.html`](demo/index.html)
+## Start here
 
-**Open that file in a browser.** One page covering the assignment, the architecture of both implementations, and the real reports from executed runs — Robot's full step log, and Playwright's report with video and trace.
+[![B.TECH automation demo preview](https://mohamedraslan.github.io/beetick/preview.png)](https://mohamedraslan.github.io/beetick/)
+
+**Live demo:** https://mohamedraslan.github.io/beetick/
+
+The GitHub Pages demo is updated by CI after the Robot and Playwright jobs finish. It includes the assignment walkthrough, latest status cards, execution history, average timings, and links back to the workflow artifacts for the full reports, videos, and traces.
+
+For a local copy, regenerate the reports first:
 
 ```bash
-python demo/serve.py      # standard library only; opens http://127.0.0.1:8000/demo/
+python demo/refresh.py
+python demo/serve.py      # opens http://127.0.0.1:8000/demo/
 ```
-
-Opening the file directly works for everything except Playwright's trace viewer, which refuses `file://`. The server above is the one-command fix.
 
 ## Quick start
 
@@ -49,11 +54,15 @@ Report: `pnpm report`
 
 Both default to headless Chromium. For a visible browser use `--variable HEADLESS:false` or `pnpm test:headed`. Each implementation's README documents a `pip` / `npm` alternative.
 
+## GitHub Pages
+
+The workflow publishes the demo on every push to `main` or `master`, and can also be run manually from the Actions tab. In GitHub, set **Settings > Pages > Build and deployment > Source** to **GitHub Actions** once, then push normally.
+
 ## Repository map
 
 | Path | What it is |
 | --- | --- |
-| [`demo/`](demo/index.html) | Visual walkthrough and the committed reports from executed runs |
+| [`demo/`](demo/index.html) | Visual walkthrough published to GitHub Pages with CI-generated reports |
 | [`demo/notes.html`](demo/notes.html) | Engineering notes: decisions, limits, and pipeline placement |
 | [`robot/`](robot/README.md) | Robot Framework implementation — setup, wait policy, configuration |
 | [`playwright/`](playwright/README.md) | Playwright TypeScript implementation — setup, wait policy, reporting |

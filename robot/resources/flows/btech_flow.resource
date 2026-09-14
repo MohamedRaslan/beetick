@@ -11,7 +11,14 @@ Resource     ../pages/product.resource
 *** Keywords ***
 Open Fresh B.TECH Browser
     New Browser    ${BROWSER}    headless=${HEADLESS}
-    New Context    baseURL=${BEE_TICK_BASE_URL}    tracing=${TRUE}
+    ${record_video_enabled}=    Convert To Boolean    ${RECORD_VIDEO}
+    IF    ${record_video_enabled}
+        &{video_size}=    Create Dictionary    width=${VIDEO_WIDTH}    height=${VIDEO_HEIGHT}
+        &{record_video}=    Create Dictionary    dir=${OUTPUT_DIR}${/}video    size=${video_size}
+        New Context    baseURL=${BEE_TICK_BASE_URL}    tracing=${TRUE}    recordVideo=${record_video}
+    ELSE
+        New Context    baseURL=${BEE_TICK_BASE_URL}    tracing=${TRUE}
+    END
     New Page
 
 B.TECH Home Page Is Open
